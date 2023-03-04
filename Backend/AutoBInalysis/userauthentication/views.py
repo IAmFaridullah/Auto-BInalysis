@@ -7,6 +7,7 @@ from .models import client_details, clients_login
 from django.template import loader, RequestContext
 # Create your views here.
 
+
 def index(request):
     return render(request, "userauthentication/index.html")
 
@@ -17,6 +18,7 @@ def Login_Page(request):
 
 def SignUp_Page(request):
     return render(request, "userauthentication/SignUp.html")
+
 
 def SignUp_success(request):
     if request.method == 'POST':
@@ -46,20 +48,22 @@ def SignUp_success(request):
         else:
             return render(request, "userauthentication/SignUp.html")
 
+
 def User_Dashboard(request):
     if request.method == 'POST':
         if request.POST.get('username') and request.POST.get('password'):
             Username = request.POST.get('username')
             Password = request.POST.get('password')
-            user = clients_login.objects.filter(Username = Username, Password = Password)
+            user = clients_login.objects.filter(
+                Username=Username, Password=Password)
             if user.exists():
                 ##session = SessionStore()
-                ##session.create()
-                ##session.save()
+                # session.create()
+                # session.save()
                 ##request.session = session
                 ##request.session['username'] = 'username'
                 ##value = request.session.get('username', 'null')
-                ##request.session.clear()
+                # request.session.clear()
                 print(Username + "Logged In Sucessfully")
                 return render(request, 'userauthentication/user_dashboard.html')
             else:

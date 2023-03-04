@@ -1,0 +1,65 @@
+.body{
+    width: 100%;
+    padding-top: 100px !important;
+    padding-top: 60px;
+    font-family: Helvetica !important;
+    color: white;
+    background: #06283D !important;
+    
+    
+}
+.details{
+    margin: auto;
+    width: 100%;
+    padding-top: 30px;
+    background-color: #F2F2F2;
+}
+.E-com,.Store{
+    width: 100%;
+    padding-top: 30px;
+}
+
+.ecom{
+    width: 200px;
+    height: 200px;
+}
+.store{
+    width: 200px;
+    height: 200px;
+    
+    
+}
+
+.row{
+    margin-top: 60px;
+    width: 75%;
+    margin: auto;
+    
+    
+}
+
+.busInt{
+    border-radius: 10px;
+    border: 2px solid #083AA9;
+    
+}
+.card{
+    border-radius: 20px;
+}
+
+.E-com-card :hover{
+    background-color: #072f47;
+    color: white;
+    border-radius: 20px;
+}
+.Super-card :hover{
+    background-color: #072f47;
+    color: white;
+    border-radius: 20px;
+}
+
+
+.row-card{
+    padding-top: 60px !important;
+    padding-bottom: 60px;
+}
