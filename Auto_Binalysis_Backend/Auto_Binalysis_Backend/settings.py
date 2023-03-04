@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'userauthentication'
+    'userauthentication',
+    'chatbot'
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Auto_BinalysisDB',
         'USER': 'root',
-        'PASSWORD': 'srwatson33',
+        'PASSWORD': 'pass123',
         'HOST': 'localhost',
         'PORT': '3306',
     }

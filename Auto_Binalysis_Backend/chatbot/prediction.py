@@ -1,5 +1,6 @@
 from keras.models import load_model
 import random
+
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.layers import Dense, Activation, Dropout
 from tensorflow.keras.models import Sequential
@@ -14,10 +15,10 @@ warnings.filterwarnings("ignore")
 lemmatizer = WordNetLemmatizer()
 
 # load the saved model file
-model = load_model('chatbot.h5')
-intents = json.loads(open("Training_data.json").read())
-words = pickle.load(open('words.pkl', 'rb'))
-classes = pickle.load(open('classes.pkl', 'rb'))
+model = load_model('.\\chatbot\\chatbot.h5') 
+intents = json.loads(open(".\\chatbot\\Training_data.json").read())
+words = pickle.load(open('.\\chatbot\\words.pkl', 'rb'))
+classes = pickle.load(open('.\\chatbot\\classes.pkl', 'rb'))
 
 
 def clean_up_sentence(sentence):
@@ -86,18 +87,26 @@ def chatbot_response(text):
     return res
 
 
-def start_chat():
+def start_chat(question):
     print("Hi this is your chat bot from Auto-BInalysis.\n\n")
-    while True:
-        inp = str(input()).lower()
-        if inp.lower() == "end":
-            break
-        if inp.lower() == '' or inp.lower() == '*':
-            print("Sorry! I couldn't understand. Please re-phrase your query!")
-            print("-"*50)
-        else:
-            print(f"Bot: {chatbot_response(inp)}"+'\n')
-            print("-"*50)
+    print(question)
+    # while True:
+        # inp = str(input()).lower()
+        # if inp.lower() == "end":
+        #     break
+        # if inp.lower() == '' or inp.lower() == '*':
+        #     print("Sorry! I couldn't understand. Please re-phrase your query!")
+        #     print("-"*50)
+        # else:
+            # print(f"Bot: {chatbot_response(inp)}"+'\n')
+            # print("-"*50)
+    response = chatbot_response(question.lower())
+    return response
 
+# start_chat()
 
-start_chat()
+'''
+
+global veriable that can store root directory
+
+'''
