@@ -1,8 +1,10 @@
 import React from "react";
 import logo from "../images/Logo1.png";
 import "./css/Navbar.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   return (
     <div className="container" style={{ maxWidth: "100%", padding: "0%" }}>
       <nav className="navbar navbar-expand-lg">
@@ -33,7 +35,26 @@ export default function Navbar() {
               </li>
             </ul>
           </div>
-          <button type="button" id="login" className="btn btn-success">
+          <button
+            type="button"
+            // id="login"
+            className="btn btn-danger"
+            style={{ marginRight: "1rem" }}
+            onClick={() => {
+              localStorage.clear();
+              navigate("/login");
+            }}
+          >
+            Logout
+          </button>
+          <button
+            type="button"
+            // id="login"
+            className="btn btn-success"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
             Login
           </button>
           <button

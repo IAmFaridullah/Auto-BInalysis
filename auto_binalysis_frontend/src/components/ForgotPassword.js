@@ -21,7 +21,7 @@ function ForgotPassword() {
   return (
     <>
       <Card className={styles.container}>
-        <h1 className={styles.form_heading}>Forgot Password</h1>
+        <h1 className={styles.form_heading}>Reset password</h1>
         <form onSubmit={submitHandler}>
           <div className={styles.inputs_container}>
             <label htmlFor="email">Email</label>

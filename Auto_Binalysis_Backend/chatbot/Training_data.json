@@ -27,13 +27,13 @@
     {
       "tag": "location",
       "patterns": [
-        "Where is your company",
-        "Where are you located",
+        "Where is your company?",
+        "Where are you located?",
         "Where are you from?",
         "Where do you belong?",
-        "Aap kahan se ho",
+        "Aap kahan se ho?",
         "Your location?",
-        "your city"
+        "your city?"
       ],
       "responses": ["We are from Rawalpindi, Pakistan"],
       "context_set": ""
