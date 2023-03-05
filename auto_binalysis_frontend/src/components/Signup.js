@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import styles from "./css/Signup.module.css";
 import { Card, Form } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [userData, setUserData] = useState({ age: 18 });
+  const navigate = useNavigate();
 
   const changeHandler = (event) => {
     setUserData({ ...userData, [event.target.name]: event.target.value });
@@ -17,9 +19,9 @@ function Signup() {
       "http://localhost:8000/auth/users/",
       userData
     );
-    // if (response.status === 201) {
-    console.log(response.data);
-    // }
+    if (response.status === 201) {
+      navigate("/login");
+    }
   };
 
   return (

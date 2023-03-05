@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-import "./css/Profile.module.css";
+import styles from "./css/Profile.module.css";
 
 import Card from "react-bootstrap/Card";
-import profileImage from "../../src/assets/profile.png";
+import profileImage from "../assets/profile.png";
 import { FaFacebookSquare } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaWhatsappSquare } from "react-icons/fa";
@@ -26,36 +26,50 @@ const Profile = () => {
     setUser(response.data);
   };
 
+  const changePasswordHandler = async () => {
+    const response = await axios.post(
+      "http://localhost:8000/auth/users/reset_password/",
+      { email: user?.email }
+    );
+    console.log(response);
+  };
+
   useEffect(() => {
     getUserData();
   }, []);
 
   return (
-    <div className="profile_holder">
-      <Card className="profile_container">
-        <div className="profile_header">
-          <Card className="image">
+    <div className={styles.profile_holder}>
+      <Card className={styles.profile_container}>
+        <div className={styles.profile_header}>
+          <Card className={styles.image}>
             <img src={profileImage} alt="profile visual identity" />
           </Card>
-          <h6 className="title">{user?.name}</h6>
-          <p className="subtitle">User</p>
+          <h6 className={styles.title}>{user?.name}</h6>
+          <p className={styles.subtitle}>{user?.email}</p>
+          <p
+            onClick={changePasswordHandler}
+            className={styles.reset_password_link}
+          >
+            Change password
+          </p>
         </div>
-        <div className="social_profiles">
-          <div className="social">
-            <FaFacebookSquare className="icon" />
+        <div className={styles.social_profiles}>
+          <div className={styles.social}>
+            <FaFacebookSquare className={styles.icon} />
           </div>
-          <div className="social">
+          <div className={styles.social}>
             <AiFillInstagram
-              className="icon"
+              className={styles.icon}
               style={{ height: "2.3rem", width: "2.3rem" }}
             />
           </div>
-          <div className="social">
-            <FaWhatsappSquare className="icon" />
+          <div className={styles.social}>
+            <FaWhatsappSquare className={styles.icon} />
           </div>
-          <div className="social">
+          <div className={styles.social}>
             <BsYoutube
-              className="icon"
+              className={styles.icon}
               style={{ height: "2.7rem", width: "2.3rem" }}
             />
           </div>

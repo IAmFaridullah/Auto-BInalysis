@@ -4,12 +4,14 @@ import styles from "./css/NewPassword.module.css";
 import { Card } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function NewPassword() {
   const [userData, setUserData] = useState({
     new_password: "",
     re_new_password: "",
   });
+  const navigate = useNavigate();
   const { uid, token } = useParams();
 
   const changeHandler = (event) => {
@@ -28,6 +30,11 @@ function NewPassword() {
       }
     );
     console.log(response);
+    if (localStorage.getItem("accessToken")) {
+      navigate("/profile");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
