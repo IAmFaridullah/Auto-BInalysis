@@ -62,3 +62,9 @@ button {
   height: 66px;
   border-radius: 10px;
 }
+
+.forgot_text {
+  text-align: right;
+  text-decoration: none;
+  margin-right: 1rem;
+}

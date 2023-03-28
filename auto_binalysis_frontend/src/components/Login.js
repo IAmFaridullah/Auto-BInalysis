@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import styles from "./css/Login.module.css";
 import { Card } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
@@ -17,15 +17,20 @@ function Login() {
   };
 
   const submitHandler = async (event) => {
-    console.log(userData);
     event.preventDefault();
     const response = await axios.post(
       "http://localhost:8000/auth/jwt/create/",
       userData
     );
     if (response.status === 200) {
-      window.localStorage.setItem("accessToken", response.data.access);
-      window.localStorage.setItem("refreshToken", response.data.refresh);
+      const resp = await axios.get("http://localhost:8000/auth/users/me/", {
+        headers: {
+          Authorization: `JWT ${response.data.access}`,
+        },
+      });
+      localStorage.setItem("user", JSON.stringify(resp.data));
+      localStorage.setItem("accessToken", response.data.access);
+      localStorage.setItem("refreshToken", response.data.refresh);
       navigate("/profile");
     }
   };
@@ -42,6 +47,9 @@ function Login() {
           <label htmlFor="password">Password</label>
           <input type="password" onChange={changeHandler} name="password" />
         </div>
+        <Link to="/reset-password" className={styles.forgot_text}>
+          Forgot password?
+        </Link>
         <button type="submit" className={styles.loginBtn}>
           Login
         </button>

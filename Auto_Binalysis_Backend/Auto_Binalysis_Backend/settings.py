@@ -90,13 +90,6 @@ DATABASES = {
     }
 }
 
-# host: "smtp.sendgrid.net",
-# port: 465,
-# auth: {
-#     user: "apikey",
-#     pass: "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",
-# },
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
@@ -117,6 +110,8 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
+    'USER_ID_FIELD': 'username',
+
 }
 
 DJOSER = {
@@ -181,8 +176,11 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'userauthentication.UserAccount'
+AUTH_USER_MODEL = 'userauthentication.client_details'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]

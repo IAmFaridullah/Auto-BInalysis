@@ -6,7 +6,16 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Signup() {
-  const [userData, setUserData] = useState({ age: 18 });
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    org_name: "",
+    org_city: "",
+    org_country: "",
+    account_name: "",
+    password: "",
+    re_password: "",
+  });
   const navigate = useNavigate();
 
   const changeHandler = (event) => {
@@ -14,13 +23,18 @@ function Signup() {
   };
 
   const submitHandler = async (event) => {
+    console.log(userData);
     event.preventDefault();
-    const response = await axios.post(
-      "http://localhost:8000/auth/users/",
-      userData
-    );
-    if (response.status === 201) {
-      navigate("/login");
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/auth/users/",
+        userData
+      );
+      if (response.status === 201) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(Object.values(error?.response?.data)[0][0]);
     }
   };
 
@@ -29,11 +43,11 @@ function Signup() {
       <h1 className={styles.form_heading}>Sign Up</h1>
       <form onSubmit={submitHandler}>
         <div className={styles.inputs_container}>
-          <label htmlFor="username">Name</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             onChange={changeHandler}
-            name="name"
+            name="username"
             placeholder="Name"
           />
         </div>
@@ -41,15 +55,17 @@ function Signup() {
           <label htmlFor="organizationName">Organization name</label>
           <input
             type="text"
-            name="organizationName"
+            name="org_name"
             placeholder="Organization name"
+            onChange={changeHandler}
           />
         </div>
         <div className={styles.inputs_container}>
           <label htmlFor="organizationCountry">Organization country</label>
           <input
             type="text"
-            name="organizationCountry"
+            name="org_country"
+            onChange={changeHandler}
             placeholder="Organization country"
           />
         </div>
@@ -57,13 +73,19 @@ function Signup() {
           <label htmlFor="organizationCity">Organization city</label>
           <input
             type="text"
-            name="organizationCity"
+            name="org_city"
             placeholder="Organization city"
+            onChange={changeHandler}
           />
         </div>
         <div className={styles.inputs_container}>
           <label htmlFor="accountName">Account name</label>
-          <input type="text" name="accountName" placeholder="Account name" />
+          <input
+            type="text"
+            name="account_name"
+            placeholder="Account name"
+            onChange={changeHandler}
+          />
         </div>
         <div className={styles.inputs_container}>
           <label htmlFor="email">Email</label>
