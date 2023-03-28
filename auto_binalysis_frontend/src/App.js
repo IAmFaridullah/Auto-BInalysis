@@ -1,7 +1,8 @@
+import React from "react";
+
 import "./App.css";
 
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
@@ -9,16 +10,35 @@ import Signup from "./components/Signup";
 import ForgotPassword from "./components/ForgotPassword";
 import NewPassword from "./components/NewPassword";
 import Profile from "./components/Profile";
-import Chatbot from "./components/Chatbot";
+import FileUpload from "./components/FileUpload";
+import Chatpage from "./components/chatpage/Chatpage";
+import Navbar from "./components/Navbar";
+import PopupChatbot from "./components/PopupChatbot";
+import ChatContextProvider from "./components/context/chatcontext/Chatcontextprovider";
+import TrainedModels from "./components/TrainedModels";
 
 function App() {
+  const location = useLocation();
+  const isChatRoute = location.pathname.startsWith("/chat");
+
   return (
     <div>
-      <Navbar />
+      {!isChatRoute && <Navbar />}
+      {!isChatRoute && <PopupChatbot />}
+
       <Routes>
         <Route path="/" element={<Body />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/chatbot" element={<Chatbot />} />
+        <Route path="/file-upload" element={<FileUpload />} />
+        <Route path="/models" element={<TrainedModels />} />
+        <Route
+          path="/chat"
+          element={
+            <ChatContextProvider>
+              <Chatpage />
+            </ChatContextProvider>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
         <Route
@@ -27,7 +47,7 @@ function App() {
         />
         <Route path="/register" element={<Signup />} />
       </Routes>
-      <Footer />
+      {!isChatRoute && <Footer />}
     </div>
   );
 }

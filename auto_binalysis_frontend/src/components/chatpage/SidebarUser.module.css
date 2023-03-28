@@ -1,0 +1,45 @@
+.sidebar_user {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  padding: 10px;
+  border-bottom: 1px solid lightgray;
+}
+
+.sidebar_user:hover {
+  cursor: pointer;
+}
+
+.profile_pic {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: pink;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile_label {
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.profile_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.profile_name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.profile_email {
+  margin: 0;
+  margin-top: -4px;
+  font-size: 15px;
+}

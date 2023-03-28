@@ -11,20 +11,8 @@ import { BsYoutube } from "react-icons/bs";
 import axios from "axios";
 
 const Profile = () => {
-  const [user, setUser] = useState({});
-  const accessToken = window.localStorage.getItem("accessToken");
-
-  // const user = JSON.parse(window.localStorage.getItem("user"));
-
-  const getUserData = async () => {
-    const response = await axios.get("http://localhost:8000/auth/users/me/", {
-      headers: {
-        Authorization: `JWT ${accessToken}`,
-      },
-    });
-    console.log(response);
-    setUser(response.data);
-  };
+  const [message, setMessage] = useState("");
+  const user = JSON.parse(window.localStorage.getItem("user"));
 
   const changePasswordHandler = async () => {
     const response = await axios.post(
@@ -34,10 +22,6 @@ const Profile = () => {
     console.log(response);
   };
 
-  useEffect(() => {
-    getUserData();
-  }, []);
-
   return (
     <div className={styles.profile_holder}>
       <Card className={styles.profile_container}>
@@ -45,7 +29,7 @@ const Profile = () => {
           <Card className={styles.image}>
             <img src={profileImage} alt="profile visual identity" />
           </Card>
-          <h6 className={styles.title}>{user?.name}</h6>
+          <h6 className={styles.title}>{user?.account_name}</h6>
           <p className={styles.subtitle}>{user?.email}</p>
           <p
             onClick={changePasswordHandler}

@@ -1,0 +1,26 @@
+.sender {
+  box-sizing: border-box;
+  font-size: 14px;
+  padding: 0.5rem 1rem;
+  margin: 0.6rem;
+  background: plum;
+  border-radius: 1.125rem 1.125rem 1.125rem 0;
+  min-height: 2.2rem;
+  width: fit-content;
+  max-width: 66%;
+  box-shadow: 0 0 2rem rgba(black, 0.075), 0rem 1rem 1rem -1rem rgba(black, 0.1);
+}
+
+.reciever {
+  box-sizing: border-box;
+  font-size: 14px;
+  padding: 0.5rem 1rem;
+  margin: 0.6rem;
+  margin-left: auto;
+  background: wheat;
+  border-radius: 1.125rem 1.125rem 1.125rem 0;
+  min-height: 2.2rem;
+  width: fit-content;
+  max-width: 66%;
+  box-shadow: 0 0 2rem rgba(black, 0.075), 0rem 1rem 1rem -1rem rgba(black, 0.1);
+}
