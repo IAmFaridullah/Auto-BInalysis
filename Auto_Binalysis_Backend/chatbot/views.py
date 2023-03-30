@@ -1,5 +1,5 @@
 import pandas as pd
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from .prediction import start_chat
 import json
 import os
@@ -89,20 +89,48 @@ def dataset_upload(request):
             for chunk in dataset.chunks():
                 destination.write(chunk)
 
-#         pdf = FPDF()
+        pdf = FPDF('L', 'mm', (297, 210))
+        pdf.add_page()
 
-#         pdf.add_page()
+        # Set the font and font size for the PDF
+        pdf.set_font("Arial", size=12)
 
-# # Set the font and font size for the PDF
-#         pdf.set_font("Arial", size=12)
+        pdf.set_font("Arial", "B", 16)
+        pdf.cell(0, 10, "Model Predictions", 0, 1, 'C')
+        pdf.ln()
 
-# # Write the dataframe to the PDF
-#         for col in df.columns:
-#             pdf.cell(0, 10, col, ln=1)
+        # Set the column headers for the PDF table
+        header = list(df.columns)
 
-# # Save the PDF
-#         pdf.output("dataframe.pdf")
-#         # PDF
+        # Create the PDF table
+        cell_width = 40
+        cell_height = 10
 
-        return HttpResponse("File uploaded successfully.", status=200)
+# Create the PDF table
+        pdf.set_font("Arial", "B", 12)
+        for col in header:
+            pdf.cell(cell_width, cell_height, col, border=1)
+        pdf.ln()
+
+        pdf.set_font("Arial", "", 12)
+        for index, row in df.iterrows():
+            for col in header:
+                # Use MultiCell instead of Cell to wrap text
+                pdf.cell(cell_width, cell_height,
+                         str(row[col]), border=1)
+            pdf.ln()
+
+# Save the PDF
+        pdf_bytes = pdf.output(dest='S')
+        # convert the bytearray to a string
+        pdf_str = pdf_bytes.decode('latin-1')
+        pdf_encoded = pdf_str.encode('latin-1')
+
+    # Create a response with the PDF as content
+        response = FileResponse(pdf_encoded, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="dataframe.pdf"'
+    # Send the response to the client
+        return response
+
+        # return HttpResponse("File uploaded successfully.", status=200)
     return HttpResponse("Server is expecting post request for dataset upload", status=400)

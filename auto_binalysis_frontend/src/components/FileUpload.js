@@ -2,9 +2,9 @@ import axios from "axios";
 import styles from "./css/FileUpload.module.css";
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { AiFillFile } from "react-icons/ai";
+import { MdCloudUpload } from "react-icons/md";
 
-function FileUpload() {
+function FileUpload({ url }) {
   const [files, setFiles] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -14,18 +14,11 @@ function FileUpload() {
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const fileHandler = (event) => {
-    setFiles(event.target.files[0]);
-  };
-
   const fileSubmitHandler = async () => {
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("username", user.username);
-    const response = await axios.post(
-      "http://localhost:8000/chatbot/upload/",
-      formData
-    );
+    const response = await axios.post(url, formData);
     if (response.status === 200) {
       console.log(response);
     }
@@ -38,7 +31,10 @@ function FileUpload() {
         {isDragActive ? (
           <p>Drop the files here ...</p>
         ) : (
-          <p>Drag 'n' drop the dataset here, or click to select dataset</p>
+          <div className={styles.upload_container}>
+            <p>Drag 'n' drop the dataset here, or click to select dataset</p>
+            <MdCloudUpload className={styles.upload_icon} />
+          </div>
         )}
         <ul>
           {files.map((file, i) => (
@@ -52,12 +48,12 @@ function FileUpload() {
             </li>
           ))}
         </ul>
-        {files.length > 0 && (
-          <button className={styles.upload_button} onClick={fileSubmitHandler}>
-            Upload
-          </button>
-        )}
       </div>
+      {files.length > 0 && (
+        <button className={styles.upload_button} onClick={fileSubmitHandler}>
+          Upload
+        </button>
+      )}
     </div>
   );
 }

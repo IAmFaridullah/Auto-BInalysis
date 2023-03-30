@@ -29,7 +29,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Body />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/file-upload" element={<FileUpload />} />
+        <Route
+          path="/train-model"
+          element={
+            <FileUpload url="http://localhost:8000/analysis/train-model/" />
+          }
+        />
+        <Route
+          path="/test-model"
+          element={
+            <FileUpload url="http://localhost:8000/analysis/test-model/" />
+          }
+        />
         <Route path="/models" element={<TrainedModels />} />
         <Route
           path="/chat"

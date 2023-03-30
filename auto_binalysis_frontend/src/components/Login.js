@@ -53,7 +53,12 @@ function Login() {
         <button type="submit" className={styles.loginBtn}>
           Login
         </button>
-        <button className={styles.newAccountBtn}>Create new account</button>
+        <button
+          className={styles.newAccountBtn}
+          onClick={() => navigate("/register")}
+        >
+          Create new account
+        </button>
       </form>
     </Card>
   );
