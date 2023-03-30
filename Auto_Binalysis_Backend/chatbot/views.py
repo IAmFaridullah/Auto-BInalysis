@@ -89,9 +89,12 @@ def dataset_upload(request):
             for chunk in dataset.chunks():
                 destination.write(chunk)
 
-#         pdf = FPDF()
-
-# Create the PDF table
+        pdf = FPDF()
+        header = list(df.columns)
+        cell_width = 40
+        cell_height = 10
+        
+        # Create the PDF table
         pdf.set_font("Arial", "B", 12)
         for col in header:
             pdf.cell(cell_width, cell_height, col, border=1)
