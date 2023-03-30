@@ -23,7 +23,7 @@ function FileUpload() {
     formData.append("file", files[0]);
     formData.append("username", user.username);
     const response = await axios.post(
-      "http://localhost:8000/chatbot/upload/",
+      "http://localhost:8000/analysis/train-model/",
       formData
     );
     if (response.status === 200) {

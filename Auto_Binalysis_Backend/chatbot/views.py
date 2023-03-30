@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from userauthentication.models import client_details
 from .models import Chat, Admin
 from django.contrib.contenttypes.models import ContentType
-from fpdf import FPDF
+# from fpdf import FPDF
 
 
 def get_chats(request):
@@ -69,25 +69,6 @@ def chat_response(request):
     else:
         return HttpResponse(status=405)
 
-
-@csrf_exempt
-def dataset_upload(request):
-    if request.method == 'POST':
-        dataset = request.FILES.get('file')
-        username = request.POST['username']
-        print('file name:', dataset.name)
-        df = pd.read_csv(dataset)
-        print(df.head())
-        user_dir = os.path.join(
-            'chatbot', 'trained-models', f'user_{username}')
-        if not os.path.exists(user_dir):
-            os.makedirs(user_dir)
-
-        model_name = f'model_{dataset.name.split(".")[0]}.csv'
-        file_path = os.path.join(user_dir, model_name)
-        with open(file_path, 'wb+') as destination:
-            for chunk in dataset.chunks():
-                destination.write(chunk)
 
 #         pdf = FPDF()
 
