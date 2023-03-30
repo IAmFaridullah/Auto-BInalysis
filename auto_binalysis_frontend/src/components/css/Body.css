@@ -1,63 +1,58 @@
-.body{
-    width: 100%;
-    padding-top: 100px !important;
-    padding-top: 60px;
-    font-family: Helvetica !important;
-    color: white;
-    background: #06283D !important;
-    
-    
+.body {
+  width: 100%;
+  padding-top: 100px;
+  padding-top: 60px;
+  font-family: Helvetica;
+  color: white;
+  background: #06283d;
 }
-.details{
-    margin: auto;
-    width: 100%;
-    padding-top: 30px;
-    background-color: #F2F2F2;
+.details {
+  margin: auto;
+  width: 100%;
+  padding-top: 30px;
+  background-color: #f2f2f2;
 }
-.E-com,.Store{
-    width: 100%;
-    padding-top: 10px;
-}
-
-.ecom{
-    width: 200px;
-    height: 200px;
-}
-.store{
-    width: 200px;
-    height: 200px;
-    
-    
+.E-com,
+.Store {
+  width: 100%;
+  padding-top: 10px;
 }
 
-.row{
-    margin-top: 60px;
-    width: 75%;
-    margin: auto;
-    
+.ecom {
+  width: 200px;
+  height: 200px;
+}
+.store {
+  width: 200px;
+  height: 200px;
 }
 
-.busInt{
-    border-radius: 10px;
-    border: 2px solid #083AA9;
-}
-.card{
-    border-radius: 20px;
+.row {
+  margin-top: 60px;
+  width: 75%;
+  margin: auto;
 }
 
-.E-com-card :hover{
-    background-color: #1C3879;
-    color: white;
-    border-radius: 20px;
+.busInt {
+  border-radius: 10px;
+  border: 2px solid #083aa9;
 }
-.Super-card :hover{
-    background-color: #002B5B;
-    color: white;
-    border-radius: 20px;
+.card {
+  border-radius: 20px;
 }
 
+.E-com-card :hover {
+  background-color: #1c3879;
+  color: white;
+  border-radius: 20px;
+}
+.Super-card :hover {
+  background-color: #002b5b;
+  color: white;
+  border-radius: 20px;
+}
 
-.row-card{
-    padding-top: 60px !important;
-    padding-bottom: 60px;
+.row-card {
+  padding-top: 60px;
+  padding-bottom: 60px;
 }

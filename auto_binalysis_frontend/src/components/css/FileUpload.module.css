@@ -1,8 +1,13 @@
 .dropzone_container {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 200px;
+  flex-direction: column;
+  height: fit-content;
+  width: fit-content;
+  background-color: wheat;
+  margin: 0 auto;
+  padding: 1rem;
+  border-radius: 5px;
 }
 
 .dropzone_container:hover {
@@ -10,16 +15,17 @@
 }
 
 .dropzone {
-  border: 2px dashed #ccc;
-  background-color: wheat;
-  border-radius: 5px;
+  /* border: 2px dashed whitesmoke; */
   padding: 20px;
   text-align: center;
 }
 
-.dropzone p {
-  margin: 0;
-  font-size: 16px;
+/* .upload_container {
+} */
+
+.upload_icon {
+  font-size: 140px;
+  color: lightslategray;
 }
 
 .dropzone ul {

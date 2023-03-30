@@ -1,5 +1,5 @@
 import pandas as pd
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from .prediction import start_chat
 import json
 import os
@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from userauthentication.models import client_details
 from .models import Chat, Admin
 from django.contrib.contenttypes.models import ContentType
-# from fpdf import FPDF
+from fpdf2 import FPDF
 
 
 def get_chats(request):
@@ -70,20 +70,52 @@ def chat_response(request):
         return HttpResponse(status=405)
 
 
+@csrf_exempt
+def dataset_upload(request):
+    if request.method == 'POST':
+        dataset = request.FILES.get('file')
+        username = request.POST['username']
+        print('file name:', dataset.name)
+        df = pd.read_csv(dataset)
+        print(df.head())
+        user_dir = os.path.join(
+            'chatbot', 'trained-models', f'user_{username}')
+        if not os.path.exists(user_dir):
+            os.makedirs(user_dir)
+
+        model_name = f'model_{dataset.name.split(".")[0]}.csv'
+        file_path = os.path.join(user_dir, model_name)
+        with open(file_path, 'wb+') as destination:
+            for chunk in dataset.chunks():
+                destination.write(chunk)
+
 #         pdf = FPDF()
 
-#         pdf.add_page()
+# Create the PDF table
+        pdf.set_font("Arial", "B", 12)
+        for col in header:
+            pdf.cell(cell_width, cell_height, col, border=1)
+        pdf.ln()
 
-# # Set the font and font size for the PDF
-#         pdf.set_font("Arial", size=12)
+        pdf.set_font("Arial", "", 12)
+        for index, row in df.iterrows():
+            for col in header:
+                # Use MultiCell instead of Cell to wrap text
+                pdf.cell(cell_width, cell_height,
+                         str(row[col]), border=1)
+            pdf.ln()
 
-# # Write the dataframe to the PDF
-#         for col in df.columns:
-#             pdf.cell(0, 10, col, ln=1)
+# Save the PDF
+        pdf_bytes = pdf.output(dest='S')
+        # convert the bytearray to a string
+        pdf_str = pdf_bytes.decode('latin-1')
+        pdf_encoded = pdf_str.encode('latin-1')
 
-# # Save the PDF
-#         pdf.output("dataframe.pdf")
-#         # PDF
+    # Create a response with the PDF as content
+        response = FileResponse(pdf_encoded, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="dataframe.pdf"'
+    # Send the response to the client
+        return response
 
-        return HttpResponse("File uploaded successfully.", status=200)
+        # return HttpResponse("File uploaded successfully.", status=200)
     return HttpResponse("Server is expecting post request for dataset upload", status=400)
