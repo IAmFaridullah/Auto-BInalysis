@@ -18,6 +18,10 @@ function Signup() {
   });
   const navigate = useNavigate();
 
+  const userTypeHandler = (event) => {
+    console.log(event.target.value);
+  };
+
   const changeHandler = (event) => {
     setUserData({ ...userData, [event.target.name]: event.target.value });
   };
@@ -140,10 +144,13 @@ function Signup() {
           </div>
         </div>
         <div className={styles.market_select_container}>
-          <Form.Select size="lg" aria-label="Default select example">
-            <option>Select market</option>
-            <option value="2">Local Super Market</option>
-            <option value="3">E-commerce Store</option>
+          <Form.Select
+            size="lg"
+            aria-label="Default select example"
+            onChange={userTypeHandler}
+          >
+            <option value="Local Super Market">Local Super Market</option>
+            <option value="E-commerce Store">E-commerce Store</option>
           </Form.Select>
         </div>
         <button type="submit" className={styles.loginBtn}>
