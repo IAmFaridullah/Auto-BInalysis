@@ -18,7 +18,10 @@ function FileUpload({ url }) {
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("username", user.username);
-    const response = await axios.post(url, formData);
+    const response = await axios.post(
+      "http://localhost:8000/chatbot/upload/",
+      formData
+    );
     if (response.status === 200) {
       console.log(response);
     }
