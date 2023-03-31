@@ -36,6 +36,25 @@ const Navbar = () => {
             Home
           </NavLink>
         </li>
+        {accessToken && (
+          <li className="nav-item">
+            <NavLink
+              to="/profile"
+              end
+              style={({ isActive }) =>
+                isActive
+                  ? {
+                      backgroundColor: "orange",
+                      padding: "8px",
+                      borderRadius: "5px",
+                    }
+                  : null
+              }
+            >
+              Profile
+            </NavLink>
+          </li>
+        )}
         <li className="nav-item">
           <NavLink
             to="/about"
@@ -72,20 +91,7 @@ const Navbar = () => {
         )}
         {accessToken && (
           <li className="nav-item">
-            <NavLink
-              onClick={handleLogout}
-              style={({ isActive }) =>
-                isActive
-                  ? {
-                      backgroundColor: "orange",
-                      padding: "8px",
-                      borderRadius: "5px",
-                    }
-                  : null
-              }
-            >
-              Logout
-            </NavLink>
+            <NavLink onClick={handleLogout}>Logout</NavLink>
           </li>
         )}
         {!accessToken && (
