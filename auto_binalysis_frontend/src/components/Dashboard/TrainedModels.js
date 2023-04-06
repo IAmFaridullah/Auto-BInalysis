@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { NavLink } from "react-router-dom";
 import { BiRightArrowAlt } from "react-icons/bi";
 import styles from "./TrainedModels.module.css";
 import Model from "./Model";
+import axios from "axios";
 
 function TrainedModels() {
+  const [models, setModels] = useState([]);
+  const user = JSON.parse(window.localStorage.getItem("user"));
+
+  const getUserModels = async () => {
+    const response = await axios.post(
+      "http://localhost:8000/analysis/user-models/",
+      {
+        username: user.username,
+      }
+    );
+    if (response.status === 200) {
+      console.log(response.data);
+      setModels(response.data.models_data);
+    }
+  };
+  useEffect(() => {
+    getUserModels();
+  }, []);
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -17,14 +36,9 @@ function TrainedModels() {
         </NavLink>
       </div>
       <div className={styles.models_container}>
-        <Model />
-        <Model />
-        <Model />
-        <Model />
-        <Model />
-        <Model />
-        <Model />
-        <Model />
+        {models.map((model) => (
+          <Model name={model.model_name} accuracy={model.accuracy} />
+        ))}
       </div>
     </div>
   );
