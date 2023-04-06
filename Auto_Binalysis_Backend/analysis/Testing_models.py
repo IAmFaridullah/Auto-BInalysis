@@ -7,10 +7,12 @@ from wsgiref.util import FileWrapper
 import io
 import os
 from statsmodels.tsa.arima.model import ARIMA
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
 
 def test_models(dataset,model_dir):
     dataset_name = dataset.name.split(".")[0] 
-    if dataset_name == 'Member Churn':
+    if dataset_name == 'MemberChurnTest':
         df = pd.read_excel(dataset)
         # Convert the categorical variable to numerical values
         df['HomeDelivery'] = df['HomeDelivery'].map({'Yes': 1, 'No': 0})
@@ -37,7 +39,7 @@ def test_models(dataset,model_dir):
             df.to_excel(testfile, index=False)
             return df
 
-    elif dataset_name == 'Member_Card_Analysis_Data':
+    elif dataset_name == 'MemberCardAnalysisTest':
         # Load the data into a pandas DataFrame
         df = pd.read_excel(dataset)
         # Convert the categorical variable to numerical values
@@ -58,7 +60,7 @@ def test_models(dataset,model_dir):
             df.to_excel(testfile, index=False)
             return df
 
-    elif dataset_name == 'PharmaSalesWeekly':
+    elif dataset_name == 'PharmaTest':
         # Generate predictions for each medication using the loaded models
 
         predictions = pd.read_excel(dataset)
@@ -82,7 +84,7 @@ def test_models(dataset,model_dir):
         predictions.to_excel(testfile, index=False)
         return predictions
 
-    elif dataset_name == 'Daily Orders Mob Acc':
+    elif dataset_name == 'DailyMobOrderTest':
             # Generate predictions for each medication using the loaded models
 
             predictions = pd.read_excel(dataset)
@@ -106,7 +108,7 @@ def test_models(dataset,model_dir):
             predictions.to_excel(testfile, index=False)
             return predictions
 
-    elif dataset_name =='Daily Sales Toothpastes':
+    elif dataset_name =='DailySalesToothpastesTest':
             # Generate predictions for each medication using the loaded models
             predictions = pd.read_excel(dataset)
             # Load the saved models from file using pickle
@@ -129,5 +131,32 @@ def test_models(dataset,model_dir):
             predictions.to_excel(testfile, index=False)
             return predictions
 
-    # elif dataset_name =='Chaklala Store Sales':
-        
+    elif dataset_name =='ChaklalaStoreSalesTest':
+        df = pd.read_excel(dataset)
+        # Convert the "Product Name" column into a numerical representation
+        vectorizer = TfidfVectorizer(stop_words='english')
+        X = vectorizer.fit_transform(df['Product Name'])
+
+        # Perform clustering using K-Means algorithm
+        k = 3  # number of clusters
+        kmeans = KMeans(n_clusters=k, random_state=42).fit(X)
+
+        # Assign each product to its corresponding cluster
+        df['Cluster'] = kmeans.labels_
+
+        # Create a mapping between invoice numbers and their respective clusters
+        mapping = df[['Inv No', 'Cluster']].drop_duplicates().set_index('Inv No')['Cluster'].to_dict()
+
+        # Group products based on their invoice numbers
+        grouped_df = df.groupby(['Inv No'])['Product Name'].apply(list).reset_index()
+
+        # Add a new column with the corresponding cluster for each invoice number
+        grouped_df['Cluster'] = grouped_df['Inv No'].map(mapping)
+
+        # Print the resulting groups
+        print(grouped_df)
+        return grouped_df
+
+
+    else:
+        return pd.DataFrame({'error','Wrong dataset'})

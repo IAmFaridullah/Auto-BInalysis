@@ -97,7 +97,6 @@ def member_churn(dataset,username):
     saving_model(dataset,username,churn_model,accuracy,rmse,silhouette)
     return 'Done'
 
-
 def PharmaSalesWeekly(dataset,username):
 
     # Load the dataset
@@ -128,6 +127,8 @@ def PharmaSalesWeekly(dataset,username):
         # Calculate and print the RMSE
         actual = df[col][-52:].values
         predicted = forecast.values
+        # print(actual, 'and', predicted)
+
     mse = mean_squared_error(actual, predicted)
     rmse = np.sqrt(mse)
     print(f'RMSE for: {rmse}')
@@ -144,8 +145,6 @@ def PharmaSalesWeekly(dataset,username):
     
     return 'Done'
 
-
-    
 def Member_Card_Analysis_Data(dataset,username):
 
     # Load the data into a pandas DataFrame
@@ -197,8 +196,6 @@ def Member_Card_Analysis_Data(dataset,username):
 
     saving_model(dataset,username,card_model,accuracy,rmse,silhouette)
     return 'Done'
-
-    
 
 def Daily_Orders_for_Mobile_Accessories(dataset, username):
     print(username)
@@ -254,45 +251,6 @@ def Daily_Orders_for_Mobile_Accessories(dataset, username):
 
     return 'Done'
 
-'''    
-# def Daily_Orders_for_Mobile_Accessories(dataset,username):
-    print(username)
-    # Load the data into a pandas DataFrame 
-    df = pd.read_excel(dataset)
-    # Remove column name 'Weekday'
-    df = df.drop(['Weekday'], axis=1)
-    df = df.dropna()
-    # Check the summary statistics of the dataset
-    print(df.describe())
-    # Check for missing values
-    print(df.isnull().sum())
-
-    # Define the date range for predictions
-    future = pd.date_range(start='2023-04-03', periods=52, freq='W')
-
-    # Create separate models for each medication
-    models = {}
-    for col in df.columns[1:]:
-        # Fit an ARIMA model to the data
-        model = ARIMA(df[col], order=(1, 0, 0))
-        model_fit = model.fit()
-        # Add the trained model to the dictionary of models
-        models[col] = model_fit
-
-    # Generate predictions for each medication
-    predictions = pd.DataFrame({'ds': future})
-    for col, model in models.items():
-        # Make predictions using the trained model
-        forecast = model.predict(start=len(df), end=len(df)+51)
-        # Add the predictions to the output dataframe
-        predictions[col] = forecast.values
-
-    # Print the predictions
-    print(predictions.head())
-    #Saving Model
-    saving_model(dataset,username,models,accuracy=0.01,rmse=0.2)
-    return 'Done'
-'''
 def Chaklala_Store_Sales(dataset,username):
     print(username)
 
