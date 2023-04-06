@@ -17,7 +17,7 @@ from sklearn.metrics import mean_squared_error
 import numpy as np
 
 
-def save_model_to_db(model_name,username,accuracy,rmse,model_path):
+def save_model_to_db(model_name,username,accuracy,rmse,silhouette,model_path):
     
         trained_model = TrainedModel(
         model_name=model_name,
@@ -25,11 +25,12 @@ def save_model_to_db(model_name,username,accuracy,rmse,model_path):
         model_for='S1',
         accuracy=accuracy,
         rmse=rmse,
-        model_path=model_path
+        model_path=model_path,
+        silhouette = silhouette
         )
         trained_model.save()
         
-def saving_model(dataset,username,model,accuracy,rmse): 
+def saving_model(dataset,username,model,accuracy,rmse,silhouette): 
     # save the model to a file using pickle
     model_name = f'{dataset.name.split(".")[0]}.pkl'
     print(model_name)
@@ -40,7 +41,7 @@ def saving_model(dataset,username,model,accuracy,rmse):
     with open(model_dir, 'wb') as file:
         pickle.dump(model, file)
         
-    save_model_to_db(model_name,username,accuracy,rmse,model_dir)
+    save_model_to_db(model_name,username,accuracy,rmse,silhouette,model_dir)
 
 
 def member_churn(dataset,username):
@@ -86,11 +87,14 @@ def member_churn(dataset,username):
     # Evaluate the models' performance
     print("\n Random Forest")
     accuracy = accuracy_score(y_test, rf_pred)
+    accuracy = round(accuracy, 3)
     print("Accuracy:", accuracy)
-    #Saving Model    
-    rmse = '0.1'
-    saving_model(dataset,username,churn_model,accuracy,rmse)
+    
+    silhouette =None
+    rmse = None
+    # accuracy = None
 
+    saving_model(dataset,username,churn_model,accuracy,rmse,silhouette)
     return 'Done'
 
 
@@ -124,15 +128,19 @@ def PharmaSalesWeekly(dataset,username):
         # Calculate and print the RMSE
         actual = df[col][-52:].values
         predicted = forecast.values
-    # mse = mean_squared_error(actual, predicted)
-    # rmse = np.sqrt(mse)
-    # print(f'RMSE for: {rmse}')
+    mse = mean_squared_error(actual, predicted)
+    rmse = np.sqrt(mse)
+    print(f'RMSE for: {rmse}')
+    rmse = round(rmse, 3)
+
     # Print the predictions
     print(predictions.head())
-
-    #Saving Model
-    saving_model(dataset,username,models,accuracy=0.01,rmse=0.2)
     
+    silhouette =None
+    # rmse = None
+    accuracy = None
+
+    saving_model(dataset,username,models,accuracy,rmse,silhouette)
     
     return 'Done'
 
@@ -181,10 +189,13 @@ def Member_Card_Analysis_Data(dataset,username):
     print("\n Random Forest")
     print("Accuracy:", accuracy_score(y_test, rf_pred))
     accuracy = accuracy_score(y_test,rf_pred)
-    rmse = 0.1
-    #Saving Model
-    saving_model(dataset,username,card_model,accuracy,rmse)
+    accuracy = round(accuracy, 3)
     
+    silhouette =None
+    rmse = None
+    # accuracy = None
+
+    saving_model(dataset,username,card_model,accuracy,rmse,silhouette)
     return 'Done'
 
     
@@ -231,12 +242,15 @@ def Daily_Orders_for_Mobile_Accessories(dataset, username):
     mse = mean_squared_error(actual, predicted)
     rmse = np.sqrt(mse)
     print(f'RMSE for : {rmse}')
+    rmse = round(rmse, 3)
 
     # Print the predictions
     print(predictions.head())
 
-    # Saving Model
-    saving_model(dataset, username, models, accuracy=0.01, rmse=rmse)
+    silhouette =None
+    accuracy = None
+
+    saving_model(dataset,username,models,accuracy,rmse,silhouette)
 
     return 'Done'
 
@@ -315,8 +329,11 @@ def Chaklala_Store_Sales(dataset,username):
 
     # Get the best estimator (i.e., the best model)
     best_model = grid_search.best_estimator_
+    silhouette = round(silhouette, 3)
+    rmse = None
+    accuracy = None
 
-    saving_model(dataset,username,best_model,silhouette,rmse = 0.1)
+    saving_model(dataset,username,best_model,accuracy,rmse ,silhouette)
     # Predict the cluster assignments of the new data points
     # new_data_cluster_assignments = kmeans_model.predict(new_data)
     return 'Done'
@@ -348,5 +365,10 @@ def Daily_Sales_Toothpastes(dataset,username):
         predicted = forecast.values
     mse = mean_squared_error(actual, predicted) 
     rmse = np.sqrt(mse)
-    saving_model(dataset,username,models,accuracy=0.1,rmse=rmse)    
+    
+    rmse = round(rmse, 3)
+    silhouette =None
+    accuracy = None
+
+    saving_model(dataset,username,models,accuracy,rmse,silhouette)
     return 'Done'

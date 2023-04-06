@@ -82,7 +82,7 @@ def test_models(dataset,model_dir):
         predictions.to_excel(testfile, index=False)
         return predictions
 
-    elif dataset_name == 'Daily Orders for Mobile Accessories 2020-2022':
+    elif dataset_name == 'Daily Orders Mob Acc':
             # Generate predictions for each medication using the loaded models
 
             predictions = pd.read_excel(dataset)
