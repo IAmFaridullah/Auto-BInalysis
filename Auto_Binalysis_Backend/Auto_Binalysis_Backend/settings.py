@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'chatbot',
     'rest_framework',
     'djoser',
-    'corsheaders'
+    'corsheaders',
+    'analysis'
 ]
 
 MIDDLEWARE = [

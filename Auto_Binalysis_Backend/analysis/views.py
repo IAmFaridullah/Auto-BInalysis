@@ -4,12 +4,31 @@ from analysis import utils
 import os
 from django.views.decorators.csrf import csrf_exempt
 import pandas as pd
-from fpdf import FPDF
-
+import io
+from django.core.files import File
+from wsgiref.util import FileWrapper
+from analysis import Testing_models
 # Create your views here.
-
+from analysis.models import TrainedModel
 # def train_model(request):
-    
+
+        
+@csrf_exempt
+def user_models(request):
+    print('check')
+    if request.method == 'POST':
+        # replace 'my_username' with the username you want to filter on
+        queryset = TrainedModel.objects.filter(username='muzamil')
+        # loop through the queryset and print each object
+        users_data = [{'username': obj.username, 'model_name': obj.model_name,
+                        'path': obj.model_path} for obj in queryset]
+
+        # for obj in queryset:
+        #     print(obj)
+            
+        return HttpResponse(users_data)
+
+
 @csrf_exempt
 def train_model(request):
     if request.method == 'POST':
@@ -29,20 +48,62 @@ def train_model(request):
         # with open(file_path, 'wb+') as destination:
         #     for chunk in dataset.chunks():
         #         destination.write(chunk)
-            
+        
         if check == 'Done':
             return HttpResponse('Dataset is uploaded correctly')
         else:
             return HttpResponse('Wrong Dataset')
         
-
+        
+        
+        
+        
+        
+@csrf_exempt
 def test_model(request):
     if request.method == 'POST':
         dataset = request.FILES.get('file')
         username = request.POST['username']
-        return HttpResponse('Testing')
-    
-    
+        model_dir = 'trained-models\\user_muzamil\\Member Churn.pkl'
+        df = Testing_models.test_models(dataset, model_dir)
+
+        # write the DataFrame to an Excel file in memory
+        excel_file = io.BytesIO()
+        with pd.ExcelWriter(excel_file) as writer:
+            df.to_excel(writer, index=False, sheet_name='Sheet1')
+
+        # create an HttpResponse object with the Excel file as the content
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        # response['Content-Disposition'] = 'attachment; filename=test_model_output.xlsx'
+        response['Content-Disposition'] = 'attachment; filename="test_model_output.xlsx"; filename*=UTF-8\'\'test_model_output.xlsx'
+
+        response.write(excel_file.getvalue())
+
+        return response
+
+# @csrf_exempt
+# def test_model(request):
+#     if request.method == 'POST':
+#         dataset = request.FILES.get('file')
+#         username = request.POST['username']
+#         model_dir = 'trained-models\\user_muzamil\\Member Churn.pkl'
+#         df=Testing_models.test_models(dataset,model_dir)
+#         # write the DataFrame to an Excel file in memory
+#         print(type(df))
+#         excel_file = io.BytesIO()
+#         with pd.ExcelWriter(excel_file) as writer:
+#             df.to_excel(writer, index=False, sheet_name='Sheet1')
+
+#         # create an HttpResponse object with the Excel file as the content
+#         response = HttpResponse(
+#             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+#         )
+#         response['Content-Disposition'] = 'attachment; filename=my_excel_file.xlsx'
+#         response.write(excel_file.getvalue())
+        
+#         return response
 
 @csrf_exempt
 def dataset_upload(request):
@@ -62,37 +123,3 @@ def dataset_upload(request):
         with open(file_path, 'wb+') as destination:
             for chunk in dataset.chunks():
                 destination.write(chunk)
-
-        pdf = FPDF()
-        header = list(df.columns)
-        cell_width = 40
-        cell_height = 10
-        
-        # Create the PDF table
-        pdf.set_font("Arial", "B", 12)
-        for col in header:
-            pdf.cell(cell_width, cell_height, col, border=1)
-        pdf.ln()
-
-        pdf.set_font("Arial", "", 12)
-        for index, row in df.iterrows():
-            for col in header:
-                # Use MultiCell instead of Cell to wrap text
-                pdf.cell(cell_width, cell_height,
-                         str(row[col]), border=1)
-            pdf.ln()
-
-        # Save the PDF
-        pdf_bytes = pdf.output(dest='S')
-        # convert the bytearray to a string
-        pdf_str = pdf_bytes.decode('latin-1')
-        pdf_encoded = pdf_str.encode('latin-1')
-
-    # Create a response with the PDF as content
-        response = FileResponse(pdf_encoded, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="dataframe.pdf"'
-    # Send the response to the client
-        return response
-
-        # return HttpResponse("File uploaded successfully.", status=200)
-    return HttpResponse("Server is expecting post request for dataset upload", status=400)
