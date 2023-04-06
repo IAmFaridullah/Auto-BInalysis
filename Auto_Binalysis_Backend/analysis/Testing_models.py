@@ -1,7 +1,11 @@
 import pickle
 import pandas as pd
 import numpy as np
-
+from django.http import HttpResponse
+from django.core.files import File
+from wsgiref.util import FileWrapper
+import io
+import os
 def test_models(dataset,model_dir):
 
     df = pd.read_excel(dataset)
@@ -19,7 +23,7 @@ def test_models(dataset,model_dir):
     # filling missing values
     df = df.dropna()
 
-    filename = model_dir
+    filename ='C:\\Users\\Flatmates.Org\\Desktop\\Auto-BInalysis-Project\\Auto_Binalysis_Backend\\analysis\\trained-models\\user_muzamil\\Member Churn.pkl'
     with open(filename, 'rb') as file:
         loaded_models = pickle.load(file)
         prediction=loaded_models.predict(df)
@@ -32,6 +36,9 @@ def test_models(dataset,model_dir):
         df.insert(0, 'Customer ID', customerID)
 
         print(df.head(15))
+
         df.to_excel(f'analysis\\Tested_file\\output.xlsx', index=False)
 
-        return 'Done'
+        # write the DataFrame to an Excel file in memory
+        
+        return df
