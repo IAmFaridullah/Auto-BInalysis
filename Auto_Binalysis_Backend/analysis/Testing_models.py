@@ -40,11 +40,11 @@ def test_models(dataset,model_dir):
                 'analysis', 'trained-Tested_file', f'{dataset_name}_output.xlsx')
             # write the DataFrame to an Excel file in memory
             df.to_excel(f'analysis\\Tested_file\\output.xlsx', index=False)
-            return 'file_saved'
+            return df
         
         
     elif dataset_name == 'Member_Card_Analysis_Data':
-            # Load the data into a pandas DataFrame
+        # Load the data into a pandas DataFrame
         df = pd.read_excel(dataset)
         # Convert the categorical variable to numerical values
         df['RecentCardRenewal'] = df['RecentCardRenewal'].map({'Yes': 1, 'No': 0})
@@ -59,3 +59,30 @@ def test_models(dataset,model_dir):
         with open(model_dir, 'rb') as file:
             loaded_models = pickle.load(file)
             prediction=loaded_models.predict(df)
+
+
+
+    elif dataset_name == 'output':
+        # Generate predictions for each medication using the loaded models
+        predictions = pd.read_excel(dataset)
+        
+        # Load the saved models from file using pickle
+        # filename = 'datasets/arima_models.pkl'
+        with open(model_dir, 'rb') as file:
+            loaded_models = pickle.load(file)
+
+        for col in predictions.columns[1:]:
+            # Get the corresponding trained ARIMA model from the dictionary
+            loaded_model = loaded_models[col]
+            # Make predictions using the trained model
+            forecast = loaded_model.predict(start=len(predictions), end=len(predictions)+51)
+            # Add the predictions to the output dataframe
+            predictions[col] = forecast.values
+
+        # Print the predictions
+        predictions.head()
+
+
+
+        predictions.to_excel(f'analysis\\Tested_file\\output.xlsx', index=False)
+        return 'file_saved'

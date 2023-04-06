@@ -123,7 +123,7 @@ def PharmaSalesWeekly(dataset,username):
     print(predictions.head())
 
     #Saving Model
-    saving_model(dataset,username,model)
+    saving_model(dataset,username,model,accuracy=0.01,rmse=0.2)
     
     
     return 'Done'
@@ -219,7 +219,7 @@ def Daily_Orders_for_Mobile_Accessories(dataset,username):
     # Print the predictions
     print(predictions.head())
     #Saving Model
-    saving_model(dataset,username,model)
+    saving_model(dataset,username,model,accuracy=0.01,rmse=0.2)
     return 'Done'
 
 def Chaklala_Store_Sales(dataset,username):
