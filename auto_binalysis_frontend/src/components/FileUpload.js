@@ -4,6 +4,7 @@ import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { MdCloudUpload } from "react-icons/md";
 import { useParams } from "react-router-dom";
+// import { FileSaver } from "file-saver";
 
 function FileUpload({ url }) {
   const [files, setFiles] = useState([]);
@@ -22,10 +23,13 @@ function FileUpload({ url }) {
     formData.append("file", files[0]);
     formData.append("username", user.username);
     formData.append("model_name", name);
-    const response = await axios.post(url, formData);
-    if (response.status === 200) {
-      console.log(response);
-    }
+    axios.post(url, formData, { responseType: "blob" }).then((response) => {
+      if (response.status === 200) {
+        var FileSaver = require("file-saver");
+        var blob = new Blob([response.data], { type: "application/ms-excel" });
+        FileSaver.saveAs(blob, "predictions.xlsx");
+      }
+    });
   };
 
   return (

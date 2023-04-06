@@ -51,29 +51,25 @@ def train_model(request):
             return HttpResponse('Dataset is uploaded correctly')
         else:
             return HttpResponse('Wrong Dataset')
-        
-        
-        
-        
-        
-        
-@csrf_exempt
 
+
+@csrf_exempt
 def test_model(request):
     if request.method == 'POST':
         dataset = request.FILES.get('file')
         username = request.POST['username']
         model_name = request.POST['model_name']
         print(f'this is our selected model: {model_name}')
-        model_dir = os.path.join('analysis','trained-models',f'user_{username}',model_name)
+        model_dir = os.path.join(
+            'analysis', 'trained-models', f'user_{username}', model_name)
         df = Testing_models.test_models(dataset, model_dir)
         print(df)
         # write the DataFrame to an Excel file in memory
         excel_file = io.BytesIO()
         with pd.ExcelWriter(excel_file) as writer:
             df.to_excel(writer, index=False, sheet_name='Sheet1')
-            
-                # create an HttpResponse object with the Excel file as the content
+
+            # create an HttpResponse object with the Excel file as the content
         response = HttpResponse(
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
@@ -82,6 +78,8 @@ def test_model(request):
 
         return response
         # return HttpResponsedf
+
+
 @csrf_exempt
 def download_file(request, file_path):
     # Get the file name from the file path
@@ -90,7 +88,8 @@ def download_file(request, file_path):
     # Open the file in binary mode
     with open(file_path, 'rb') as file:
         # Set the response headers
-        response = HttpResponse(file.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response = HttpResponse(file.read(
+        ), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     return response
@@ -109,14 +108,14 @@ def download_file(request, file_path):
 #         with pd.ExcelWriter(excel_file) as writer:
 #             df.to_excel(writer, index=False, sheet_name='Sheet1')
 
-        # # create an HttpResponse object with the Excel file as the content
-        # response = HttpResponse(
-        #     content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        # )
-        # response['Content-Disposition'] = 'attachment; filename=my_excel_file.xlsx'
-        # response.write(excel_file.getvalue())
+    # # create an HttpResponse object with the Excel file as the content
+    # response = HttpResponse(
+    #     content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    # )
+    # response['Content-Disposition'] = 'attachment; filename=my_excel_file.xlsx'
+    # response.write(excel_file.getvalue())
 
-        # return response
+    # return response
 
 
 @csrf_exempt
