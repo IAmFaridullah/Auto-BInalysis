@@ -1,0 +1,32 @@
+.card_container {
+  margin-top: -8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1000;
+}
+
+.card {
+  padding: 1.5rem 2rem 1rem 2rem;
+  margin-bottom: 25px;
+  height: 25vh;
+  width: 60%;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 15px 10px rgb(50 50 93 / 10%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.card_data h3 {
+  padding-bottom: 5px;
+  border-bottom: 1px solid gray;
+}
+
+.card_data p {
+  margin-top: 8px;
+  line-height: 22px;
+}

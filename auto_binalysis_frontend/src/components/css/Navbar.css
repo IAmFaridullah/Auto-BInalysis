@@ -1,7 +1,7 @@
 .navbar {
   position: sticky !important;
   top: 0;
-  z-index: 999;
+  z-index: 1999;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,21 +27,83 @@
 }
 
 .nav-item {
-  margin-left: 46px;
+  display: inline-block;
+  margin-left: 30px;
   border-radius: 5px;
 }
 
 .nav-item a {
+  position: relative;
   color: #333;
   font-weight: 500;
   font-size: 17px;
   padding: 8px 12px;
+  width: 100%;
   border-radius: 5px;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
+.nav-item a::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 4px;
+  left: 0;
+  background-color: rgb(0, 157, 255);
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.4s ease-in-out;
+}
+
+.nav-item a:hover::after {
+  visibility: visible;
+  transform: scaleX(1);
+}
+
 .nav-item a:hover {
-  color: black;
-  background-color: orange;
+  color: #333;
+}
+
+.nav_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  color: white;
+  margin-left: 30px;
+  border-radius: 20px;
+  padding: 6px 16px;
+  background-color: rgb(0, 157, 255);
+  transition: all 0.3s ease;
+}
+
+.nav_btn a {
+  color: white;
+  font-weight: 500;
+  font-size: 17px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.nav_btn a:hover {
+  color: white;
+}
+
+.nav_btn:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.logout_btn {
+  background-color: rgb(0, 157, 255);
+  color: white;
+}
+
+.logout_btn a {
+  color: white;
+}
+.logout_btn a:hover {
+  color: white;
 }

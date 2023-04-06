@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+}
+
+.header {
+  padding: 0 1rem 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 2px solid gray;
+  margin-bottom: 16px;
+}
+
+/* .header .container_title {
+  color: green;
+} */
+
+.header .train_model_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: 40px;
+  padding: 14px;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: rgb(0, 157, 255);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.header .train_model_btn:hover {
+  cursor: pointer;
+  color: white;
+  transform: scale(1.05);
+}
+
+.header a {
+  text-decoration: none;
+  color: black;
+}
+
+.header .arrow_icon {
+  margin-left: 1px;
+  margin-top: 1px;
+  font-size: 20px;
+}
+
+.models_container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}

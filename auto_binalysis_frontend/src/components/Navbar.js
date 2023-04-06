@@ -23,15 +23,15 @@ const Navbar = () => {
           <NavLink
             to="/"
             end
-            style={({ isActive }) =>
-              isActive
-                ? {
-                    backgroundColor: "orange",
-                    padding: "8px",
-                    borderRadius: "5px",
-                  }
-                : null
-            }
+            // style={({ isActive }) =>
+            //   isActive
+            //     ? {
+            //         backgroundColor: "orange",
+            //         padding: "8px",
+            //         borderRadius: "5px",
+            //       }
+            //     : null
+            // }
           >
             Home
           </NavLink>
@@ -39,77 +39,53 @@ const Navbar = () => {
         {accessToken && (
           <li className="nav-item">
             <NavLink
-              to="/profile"
-              end
-              style={({ isActive }) =>
-                isActive
-                  ? {
-                      backgroundColor: "orange",
-                      padding: "8px",
-                      borderRadius: "5px",
-                    }
-                  : null
-              }
+              to="/dashboard"
+              // style={({ isActive }) =>
+              //   isActive
+              //     ? {
+              //         backgroundColor: "orange",
+              //         padding: "8px",
+              //         borderRadius: "5px",
+              //       }
+              //     : null
+              // }
             >
-              Profile
-            </NavLink>
-          </li>
-        )}
-        <li className="nav-item">
-          <NavLink
-            to="/about"
-            style={({ isActive }) =>
-              isActive
-                ? {
-                    backgroundColor: "orange",
-                    padding: "8px",
-                    borderRadius: "5px",
-                  }
-                : null
-            }
-          >
-            About Us
-          </NavLink>
-        </li>
-        {!accessToken && (
-          <li className="nav-item">
-            <NavLink
-              to="/login"
-              style={({ isActive }) =>
-                isActive
-                  ? {
-                      backgroundColor: "orange",
-                      padding: "8px",
-                      borderRadius: "5px",
-                    }
-                  : null
-              }
-            >
-              Login
+              Dashboard
             </NavLink>
           </li>
         )}
         {accessToken && (
           <li className="nav-item">
-            <NavLink onClick={handleLogout}>Logout</NavLink>
+            <NavLink
+              to="/profile"
+              end
+              // style={({ isActive }) =>
+              //   isActive
+              //     ? {
+              //         backgroundColor: "orange",
+              //         padding: "8px",
+              //         borderRadius: "5px",
+              //       }
+              //     : null
+              // }
+            >
+              Profile
+            </NavLink>
           </li>
         )}
         {!accessToken && (
-          <li className="nav-item">
-            <NavLink
-              to="/register"
-              style={({ isActive }) =>
-                isActive
-                  ? {
-                      backgroundColor: "orange",
-                      padding: "8px",
-                      borderRadius: "5px",
-                    }
-                  : null
-              }
-            >
-              Register
-            </NavLink>
+          <li className="nav_btn">
+            <NavLink to="/login">Login</NavLink>
+          </li>
+        )}
+        {!accessToken && (
+          <li className="nav_btn">
+            <NavLink to="/register">Register</NavLink>
+          </li>
+        )}
+        {accessToken && (
+          <li className="nav_btn logout_btn" onClick={handleLogout}>
+            <NavLink>Logout</NavLink>
           </li>
         )}
       </ul>

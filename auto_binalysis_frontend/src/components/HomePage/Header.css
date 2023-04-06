@@ -1,0 +1,53 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #06283d;
+  height: 80vh;
+  padding: 0 3rem;
+  padding-top: 4rem;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 0% 100%);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 5rem;
+  width: 100%;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: -40px;
+  height: 40vh;
+  color: white;
+}
+
+.header-title {
+  font-size: 40px;
+  margin-right: 20px;
+}
+.header-slogan {
+  font-size: 34px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.header-sub-slogan {
+  font-size: 30px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-image {
+  height: 250px;
+  width: 500px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}

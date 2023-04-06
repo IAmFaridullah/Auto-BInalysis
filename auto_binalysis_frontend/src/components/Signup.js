@@ -15,6 +15,7 @@ function Signup() {
     account_name: "",
     password: "",
     re_password: "",
+    gender: "",
   });
   const navigate = useNavigate();
 

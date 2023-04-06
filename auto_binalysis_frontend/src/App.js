@@ -15,7 +15,11 @@ import Chatpage from "./components/chatpage/Chatpage";
 import Navbar from "./components/Navbar";
 import PopupChatbot from "./components/PopupChatbot";
 import ChatContextProvider from "./components/context/chatcontext/Chatcontextprovider";
-import TrainedModels from "./components/TrainedModels";
+import TrainedModels from "./components/Dashboard/TrainedModels";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Home from "./components/HomePage/Home";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import Notfound from "./components/Notfound";
 
 function App() {
   const location = useLocation();
@@ -27,29 +31,7 @@ function App() {
       {!isChatRoute && <PopupChatbot />}
 
       <Routes>
-        <Route path="/" element={<Body />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/train-model"
-          element={
-            <FileUpload url="http://localhost:8000/analysis/train-model/" />
-          }
-        />
-        <Route
-          path="/test-model"
-          element={
-            <FileUpload url="http://localhost:8000/analysis/test-model/" />
-          }
-        />
-        <Route path="/models" element={<TrainedModels />} />
-        <Route
-          path="/chat"
-          element={
-            <ChatContextProvider>
-              <Chatpage />
-            </ChatContextProvider>
-          }
-        />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
         <Route
@@ -57,6 +39,33 @@ function App() {
           element={<NewPassword />}
         />
         <Route path="/register" element={<Signup />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/models" element={<TrainedModels />} />
+          <Route
+            path="/train-model"
+            element={
+              <FileUpload url="http://localhost:8000/analysis/train-model/" />
+            }
+          />
+          <Route
+            path="/test-model"
+            element={
+              <FileUpload url="http://localhost:8000/analysis/test-model/" />
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <ChatContextProvider>
+                <Chatpage />
+              </ChatContextProvider>
+            }
+          />
+        </Route>
+
+        <Route path="*" element={<Notfound />} />
       </Routes>
       {!isChatRoute && <Footer />}
     </div>
