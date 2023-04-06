@@ -13,6 +13,9 @@ from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bo
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import GridSearchCV
 from analysis.models import TrainedModel
+from sklearn.metrics import mean_squared_error
+import numpy as np
+
 
 def save_model_to_db(model_name,username,accuracy,rmse,model_path):
     
@@ -26,7 +29,7 @@ def save_model_to_db(model_name,username,accuracy,rmse,model_path):
         )
         trained_model.save()
         
-def saving_model(dataset,username,model,accuracy,rmse): #dataset,username,churn_model,accuracy,rmse
+def saving_model(dataset,username,model,accuracy,rmse): 
     # save the model to a file using pickle
     model_name = f'{dataset.name.split(".")[0]}.pkl'
     print(model_name)
@@ -118,12 +121,17 @@ def PharmaSalesWeekly(dataset,username):
         forecast = model.predict(start=len(df), end=len(df)+51)
         # Add the predictions to the output dataframe
         predictions[col] = forecast.values
-
+        # Calculate and print the RMSE
+        actual = df[col][-52:].values
+        predicted = forecast.values
+    # mse = mean_squared_error(actual, predicted)
+    # rmse = np.sqrt(mse)
+    # print(f'RMSE for: {rmse}')
     # Print the predictions
     print(predictions.head())
 
     #Saving Model
-    saving_model(dataset,username,model,accuracy=0.01,rmse=0.2)
+    saving_model(dataset,username,models,accuracy=0.01,rmse=0.2)
     
     
     return 'Done'
@@ -180,7 +188,8 @@ def Member_Card_Analysis_Data(dataset,username):
     return 'Done'
 
     
-def Daily_Orders_for_Mobile_Accessories(dataset,username):
+
+def Daily_Orders_for_Mobile_Accessories(dataset, username):
     print(username)
     # Load the data into a pandas DataFrame 
     df = pd.read_excel(dataset)
@@ -189,7 +198,7 @@ def Daily_Orders_for_Mobile_Accessories(dataset,username):
     df = df.drop(['Weekday'], axis=1)
 
     df = df.dropna()
-    
+
     # Check the summary statistics of the dataset
     print(df.describe())
 
@@ -216,12 +225,60 @@ def Daily_Orders_for_Mobile_Accessories(dataset,username):
         # Add the predictions to the output dataframe
         predictions[col] = forecast.values
 
+        # Calculate and print the RMSE
+        actual = df[col][-52:].values
+        predicted = forecast.values
+    mse = mean_squared_error(actual, predicted)
+    rmse = np.sqrt(mse)
+    print(f'RMSE for : {rmse}')
+
+    # Print the predictions
+    print(predictions.head())
+
+    # Saving Model
+    saving_model(dataset, username, models, accuracy=0.01, rmse=rmse)
+
+    return 'Done'
+
+'''    
+# def Daily_Orders_for_Mobile_Accessories(dataset,username):
+    print(username)
+    # Load the data into a pandas DataFrame 
+    df = pd.read_excel(dataset)
+    # Remove column name 'Weekday'
+    df = df.drop(['Weekday'], axis=1)
+    df = df.dropna()
+    # Check the summary statistics of the dataset
+    print(df.describe())
+    # Check for missing values
+    print(df.isnull().sum())
+
+    # Define the date range for predictions
+    future = pd.date_range(start='2023-04-03', periods=52, freq='W')
+
+    # Create separate models for each medication
+    models = {}
+    for col in df.columns[1:]:
+        # Fit an ARIMA model to the data
+        model = ARIMA(df[col], order=(1, 0, 0))
+        model_fit = model.fit()
+        # Add the trained model to the dictionary of models
+        models[col] = model_fit
+
+    # Generate predictions for each medication
+    predictions = pd.DataFrame({'ds': future})
+    for col, model in models.items():
+        # Make predictions using the trained model
+        forecast = model.predict(start=len(df), end=len(df)+51)
+        # Add the predictions to the output dataframe
+        predictions[col] = forecast.values
+
     # Print the predictions
     print(predictions.head())
     #Saving Model
-    saving_model(dataset,username,model,accuracy=0.01,rmse=0.2)
+    saving_model(dataset,username,models,accuracy=0.01,rmse=0.2)
     return 'Done'
-
+'''
 def Chaklala_Store_Sales(dataset,username):
     print(username)
 
@@ -259,7 +316,7 @@ def Chaklala_Store_Sales(dataset,username):
     # Get the best estimator (i.e., the best model)
     best_model = grid_search.best_estimator_
 
-    saving_model(dataset,username,best_model)
+    saving_model(dataset,username,best_model,silhouette,rmse = 0.1)
     # Predict the cluster assignments of the new data points
     # new_data_cluster_assignments = kmeans_model.predict(new_data)
     return 'Done'
@@ -286,6 +343,10 @@ def Daily_Sales_Toothpastes(dataset,username):
         forecast = model.predict(start=len(df), end=len(df)+51)
         # Add the predictions to the output dataframe
         predictions[col] = forecast.values
-        
-    saving_model(dataset,username,model)    
+        # Calculate and print the RMSE
+        actual = df[col][-52:].values
+        predicted = forecast.values
+    mse = mean_squared_error(actual, predicted) 
+    rmse = np.sqrt(mse)
+    saving_model(dataset,username,models,accuracy=0.1,rmse=rmse)    
     return 'Done'
