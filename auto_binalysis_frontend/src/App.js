@@ -50,7 +50,7 @@ function App() {
             }
           />
           <Route
-            path="/test-model"
+            path="/test-model/:name"
             element={
               <FileUpload url="http://localhost:8000/analysis/test-model/" />
             }

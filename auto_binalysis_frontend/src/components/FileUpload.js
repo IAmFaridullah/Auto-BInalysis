@@ -3,10 +3,12 @@ import styles from "./css/FileUpload.module.css";
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { MdCloudUpload } from "react-icons/md";
+import { useParams } from "react-router-dom";
 
 function FileUpload({ url }) {
   const [files, setFiles] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
+  const { name } = useParams();
 
   const onDrop = useCallback((acceptedFiles) => {
     setFiles(files.concat(acceptedFiles));
@@ -15,13 +17,12 @@ function FileUpload({ url }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const fileSubmitHandler = async () => {
+    console.log(name);
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("username", user.username);
-    const response = await axios.post(
-      url,
-      formData
-    );
+    formData.append("model_name", name);
+    const response = await axios.post(url, formData);
     if (response.status === 200) {
       console.log(response);
     }
