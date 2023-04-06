@@ -97,8 +97,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = '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'
-DEFAULT_FROM_EMAIL = 'faridullahkhan645@gmail.com'
-SERVER_EMAIL = 'faridullahkhan645@gmail.com'
+DEFAULT_FROM_EMAIL = 'autobi45@gmail.com'
+SERVER_EMAIL = 'autobi45@gmail.com'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (

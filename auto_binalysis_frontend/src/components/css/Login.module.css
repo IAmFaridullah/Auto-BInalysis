@@ -1,7 +1,22 @@
 .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 4rem;
+}
+
+.logo {
+  margin-bottom: 4rem;
+  margin-left: 2rem;
+}
+
+.form_container {
   padding: 1rem;
   margin: 1rem;
   width: 40%;
+  background-color: white;
+  border-radius: 5px;
+  margin: 4rem 2rem;
 }
 
 .form_heading {

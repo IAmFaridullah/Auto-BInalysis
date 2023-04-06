@@ -20,6 +20,8 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Home from "./components/HomePage/Home";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Notfound from "./components/Notfound";
+import TrainModel from "./components/TrainModel";
+import TestModel from "./components/TestModel";
 
 function App() {
   const location = useLocation();
@@ -43,18 +45,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/models" element={<TrainedModels />} />
-          <Route
-            path="/train-model"
-            element={
-              <FileUpload url="http://localhost:8000/analysis/train-model/" />
-            }
-          />
-          <Route
-            path="/test-model/:name"
-            element={
-              <FileUpload url="http://localhost:8000/analysis/test-model/" />
-            }
-          />
+          <Route path="/train-model" element={<TrainModel />} />
+          <Route path="/test-model/:name" element={<TestModel />} />
           <Route
             path="/chat"
             element={

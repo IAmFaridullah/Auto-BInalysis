@@ -37,7 +37,7 @@ function TrainedModels() {
       </div>
       <div className={styles.models_container}>
         {models.map((model) => (
-          <Model name={model.model_name} accuracy={model.accuracy} />
+          <Model model={model} />
         ))}
       </div>
     </div>

@@ -19,10 +19,11 @@ def user_models(request):
     if request.method == 'POST':
         json_data = json.loads(request.body)
         username = json_data['username']
+        
         print(username)
         queryset = TrainedModel.objects.filter(username=username)
         models_data = [{'username': obj.username, 'model_name': obj.model_name,
-                       'path': obj.model_path, 'accuracy': obj.accuracy} for obj in queryset]
+                       'path': obj.model_path, 'accuracy': obj.accuracy, 'rmse':obj.rmse, 'silhouette':obj.silhouette} for obj in queryset]
 
         return JsonResponse({'models_data': models_data}, status=200)
 

@@ -13,8 +13,9 @@ class TrainedModel(models.Model):
     username = models.CharField(max_length=255)
     model_path = models.CharField(max_length=255, default=' ')
     model_for = models.CharField(max_length=255)
-    accuracy = models.FloatField()
-    rmse = models.FloatField()
+    accuracy = models.FloatField(null=True)
+    rmse = models.FloatField(null=True)
+    silhouette = models.FloatField(null=True)
 
     class Meta:
         db_table = 'trained_models'

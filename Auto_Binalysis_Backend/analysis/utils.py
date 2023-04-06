@@ -25,7 +25,7 @@ def training_models(dataset, username):
         if status == 'Done':
             return 'Done'
 
-    elif dataset.name.split(".")[0] == 'Daily Orders for Mobile Accessories 2020-2022':
+    elif dataset.name.split(".")[0] == 'Daily Orders Mob Acc':
         status = Training_models.Daily_Orders_for_Mobile_Accessories(
             dataset, username)
         if status == 'Done':
@@ -37,7 +37,7 @@ def training_models(dataset, username):
             return 'Done'
 
     elif dataset.name.split(".")[0] == 'Daily Sales Toothpastes':
-        status = Training_models.Chaklala_Store_Sales(dataset, username)
+        status = Training_models.Daily_Sales_Toothpastes(dataset, username)
         if status == 'Done':
             return 'Done'
 
