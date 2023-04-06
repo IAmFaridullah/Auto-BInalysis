@@ -36,7 +36,7 @@ function Login() {
   };
 
   return (
-    <Card className={styles.container}>
+    <div className={styles.container}>
       <h1 className={styles.form_heading}>Sign In</h1>
       <form onSubmit={submitHandler}>
         <div className={styles.inputs_container}>
@@ -60,7 +60,7 @@ function Login() {
           Create new account
         </button>
       </form>
-    </Card>
+    </div>
   );
 }
 

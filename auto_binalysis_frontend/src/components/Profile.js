@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import styles from "./css/Profile.module.css";
 
-import Card from "react-bootstrap/Card";
 import profileImage from "../assets/profile.png";
 import { FaFacebookSquare } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
@@ -24,11 +23,11 @@ const Profile = () => {
 
   return (
     <div className={styles.profile_holder}>
-      <Card className={styles.profile_container}>
+      <div className={styles.profile_container}>
         <div className={styles.profile_header}>
-          <Card className={styles.image}>
+          <div className={styles.image}>
             <img src={profileImage} alt="profile visual identity" />
-          </Card>
+          </div>
           <h6 className={styles.title}>{user?.account_name}</h6>
           <p className={styles.subtitle}>{user?.email}</p>
           <p
@@ -58,7 +57,7 @@ const Profile = () => {
             />
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };
