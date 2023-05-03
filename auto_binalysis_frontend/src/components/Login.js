@@ -4,12 +4,14 @@ import styles from "./css/Login.module.css";
 import logo2 from "../assets/images/Logo2.png";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { Spinner } from "react-bootstrap";
 
 function Login() {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const changeHandler = (event) => {
@@ -18,20 +20,30 @@ function Login() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    const response = await axios.post(
-      "http://localhost:8000/auth/jwt/create/",
-      userData
-    );
-    if (response.status === 200) {
-      const resp = await axios.get("http://localhost:8000/auth/users/me/", {
-        headers: {
-          Authorization: `JWT ${response.data.access}`,
-        },
-      });
-      localStorage.setItem("user", JSON.stringify(resp.data));
-      localStorage.setItem("accessToken", response.data.access);
-      localStorage.setItem("refreshToken", response.data.refresh);
-      navigate("/dashboard");
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/auth/jwt/create/",
+        userData
+      );
+      if (response.status === 200) {
+        const resp = await axios.get("http://localhost:8000/auth/users/me/", {
+          headers: {
+            Authorization: `JWT ${response.data.access}`,
+          },
+        });
+        localStorage.setItem("user", JSON.stringify(resp.data));
+        localStorage.setItem("accessToken", response.data.access);
+        localStorage.setItem("refreshToken", response.data.refresh);
+        setLoading(false);
+        if (resp.data.is_admin === true) {
+          navigate("/profile");
+        } else {
+          navigate("/dashboard");
+        }
+      }
+    } catch (error) {
+      setLoading(false);
     }
   };
 
@@ -55,7 +67,7 @@ function Login() {
             Forgot password?
           </Link>
           <button type="submit" className={styles.loginBtn}>
-            Login
+            {loading ? <Spinner /> : "Login"}{" "}
           </button>
           <button
             className={styles.newAccountBtn}

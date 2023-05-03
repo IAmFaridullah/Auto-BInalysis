@@ -5,6 +5,7 @@ import logo2 from "../assets/images/Logo2.png";
 import { Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 
 function Signup() {
   const [userData, setUserData] = useState({
@@ -19,6 +20,7 @@ function Signup() {
     gender: "",
   });
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const userTypeHandler = (event) => {
     console.log(event.target.value);
@@ -31,15 +33,18 @@ function Signup() {
   const submitHandler = async (event) => {
     console.log(userData);
     event.preventDefault();
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "http://localhost:8000/auth/users/",
         userData
       );
       if (response.status === 201) {
+        setIsLoading(false);
         navigate("/login");
       }
     } catch (error) {
+      setIsLoading(false);
       console.log(Object.values(error?.response?.data)[0][0]);
     }
   };
@@ -160,7 +165,7 @@ function Signup() {
             </Form.Select>
           </div>
           <button type="submit" className={styles.loginBtn}>
-            Signup
+            {isLoading ? <Spinner /> : "Signup"}
           </button>
         </form>
       </div>

@@ -1,0 +1,21 @@
+.container {
+  padding: 1rem;
+  padding-top: 2rem;
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.table_body {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.edit_icon {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  background-color: green;
+  border-radius: 5px;
+}

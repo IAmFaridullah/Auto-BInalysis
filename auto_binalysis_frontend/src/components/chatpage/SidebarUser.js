@@ -5,8 +5,7 @@ import styles from "./SidebarUser.module.css";
 
 function SidebarUser({ user }) {
   const [firstName, lastName] = user.name.split(" ");
-  const [, dispatch] = useContext(chatContext);
-
+  const [state, dispatch] = useContext(chatContext);
   const selectUserHandler = (selectedUser) => {
     dispatch({
       type: "SELECT_USER",
@@ -18,11 +17,16 @@ function SidebarUser({ user }) {
     <div
       className={styles.sidebar_user}
       onClick={() => selectUserHandler(user)}
+      style={
+        state.selectedUser?.username === user?.username
+          ? { backgroundColor: "#F0F0F0" }
+          : null
+      }
     >
       <div className={styles.profile_pic}>
         <span className={styles.profile_label}>
-          {firstName[0].charAt(0)}
-          {lastName[0].charAt(0)}
+          {firstName.charAt(0).toUpperCase()}
+          {lastName.charAt(0).toUpperCase()}
         </span>
       </div>
       <div className={styles.profile_info}>

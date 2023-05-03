@@ -36,8 +36,8 @@ function TrainedModels() {
         </NavLink>
       </div>
       <div className={styles.models_container}>
-        {models.map((model) => (
-          <Model model={model} />
+        {models.map((model, index) => (
+          <Model key={index} model={model} />
         ))}
       </div>
     </div>

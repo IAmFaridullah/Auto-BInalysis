@@ -1,9 +1,8 @@
 .reciever {
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 16px;
   padding: 0.5rem 1rem;
   margin: 0.6rem;
-  word-wrap: break-word;
   background: plum;
   border-radius: 1.125rem 1.125rem 1.125rem 0;
   min-height: 2.2rem;
@@ -14,12 +13,11 @@
 
 .sender {
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 16px;
   padding: 0.5rem 1rem;
   margin: 0.6rem;
   margin-left: auto;
   background: wheat;
-  word-wrap: break-word;
   border-radius: 1.125rem 1.125rem 1.125rem 0;
   min-height: 2.2rem;
   width: fit-content;

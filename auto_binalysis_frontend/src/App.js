@@ -15,6 +15,7 @@ import Chatpage from "./components/chatpage/Chatpage";
 import Navbar from "./components/Navbar";
 import PopupChatbot from "./components/PopupChatbot";
 import ChatContextProvider from "./components/context/chatcontext/Chatcontextprovider";
+import AdminContextProvider from "./components/context/admincontext/Admincontextprovider";
 import TrainedModels from "./components/Dashboard/TrainedModels";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Home from "./components/HomePage/Home";
@@ -22,6 +23,8 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import Notfound from "./components/Notfound";
 import TrainModel from "./components/TrainModel";
 import TestModel from "./components/TestModel";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
+import UpdateUser from "./components/AdminDashboard/UpdateUser";
 
 function App() {
   const location = useLocation();
@@ -47,6 +50,23 @@ function App() {
           <Route path="/models" element={<TrainedModels />} />
           <Route path="/train-model" element={<TrainModel />} />
           <Route path="/test-model/:name" element={<TestModel />} />
+
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminContextProvider>
+                <AdminDashboard />
+              </AdminContextProvider>
+            }
+          />
+          <Route
+            path="/admin/update-user/:username"
+            element={
+              <AdminContextProvider>
+                <UpdateUser />
+              </AdminContextProvider>
+            }
+          />
           <Route
             path="/chat"
             element={

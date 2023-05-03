@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 
 import styles from "./Chat.module.css";
 import { IoSend } from "react-icons/io5";
-import Message from "../Message";
+import ChatBubble from "./ChatBubble";
 import axios from "axios";
 import profilePic from "../../assets/profile.png";
 import { chatContext } from "../context/chatcontext/Chatcontextprovider";
@@ -11,8 +11,8 @@ function Chat() {
   const [chat, setChat] = useState();
   const [message, setMessage] = useState("");
   const messagesContainerRef = useRef();
-  const [state, dispatch] = useContext(chatContext);
-
+  const [state] = useContext(chatContext);
+  const [sending, setSending] = useState(false);
   const getUserChat = async () => {
     const response = await axios.post(
       "http://localhost:8000/chatbot/user-chats/",
@@ -27,7 +27,14 @@ function Chat() {
 
   useEffect(() => {
     getUserChat();
-  }, [state.selectedUser]);
+  }, [state.selectedUser, message]);
+
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
+  }, [chat, sending]);
 
   const changeHandler = (event) => {
     setMessage(event.target.value);
@@ -35,14 +42,16 @@ function Chat() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    setSending(true);
     try {
       const response = await axios.post(
         "http://localhost:8000/chatbot/admin-chat/",
-        { message: message }
+        { message: message, username: state.selectedUser.username }
       );
+      setSending(false);
       if (response.status === 200) {
-        console.log("message sent successfully");
       }
+      setMessage("");
     } catch (err) {
       if (err) {
         console.log(err);
@@ -57,14 +66,15 @@ function Chat() {
         </div>
         <p className={styles.profile_name}> {state.selectedUser?.name}</p>
       </div>
-      <div className={styles.messages_container}>
+      <div className={styles.messages_container} ref={messagesContainerRef}>
         {chat?.map((messageInfo, index) => (
-          <Message
+          <ChatBubble
             key={index}
             message={messageInfo.message}
-            isSender={messageInfo.isSender}
+            isSender={messageInfo.sender === "iamadmin" ? true : false}
           />
         ))}
+        {sending && <p style={{ textAlign: "center" }}>Sending message...</p>}
       </div>
       <div className={styles.chat_input_container}>
         <form onSubmit={submitHandler}>

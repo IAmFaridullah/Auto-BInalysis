@@ -1,0 +1,85 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 4rem;
+}
+
+.logo {
+  margin-bottom: 4rem;
+  margin-left: 2rem;
+}
+
+.form_container {
+  padding: 1rem;
+  margin: 1rem;
+  width: 40%;
+  background-color: white;
+  border-radius: 5px;
+  margin: 4rem 2rem;
+}
+
+.form_heading {
+  font-weight: bolder;
+  font-size: 40px;
+  text-align: center;
+  color: #54bbf7e8;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.inputs_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs_container label {
+  color: #54bbf7e8;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.inputs_container input {
+  margin-bottom: 10px;
+  padding: 10px;
+  height: 46px;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+  background-color: #dfdfdf;
+}
+
+button {
+  padding: 12px;
+  font-weight: bold;
+  color: white;
+  border: 2px solid transparent;
+}
+
+.loginBtn {
+  background-color: #3e74d4;
+  height: 60px;
+  margin-top: 18px;
+  font-size: 22px;
+  border-radius: 10px;
+}
+
+.newAccountBtn {
+  background-color: #177e03;
+  margin-top: 24px;
+  font-size: 22px;
+  margin-bottom: 16px;
+  height: 66px;
+  border-radius: 10px;
+}
+
+.forgot_text {
+  text-align: right;
+  text-decoration: none;
+  margin-right: 1rem;
+}
