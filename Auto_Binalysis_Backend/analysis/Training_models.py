@@ -4,6 +4,7 @@ import pickle
 from django.http import HttpResponse
 import pandas as pd
 import os
+from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 # from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
@@ -29,7 +30,7 @@ def save_model_to_db(model_name,username,accuracy,rmse,silhouette,model_path):
         silhouette = silhouette
         )
         trained_model.save()
-        
+
 def saving_model(dataset,username,model,accuracy,rmse,silhouette): 
     # save the model to a file using pickle
     model_name = f'{dataset.name.split(".")[0]}.pkl'
@@ -278,13 +279,10 @@ def Chaklala_Store_Sales(dataset,username):
     # Evaluate the clustering performance using alternative metrics
     labels = grid_search.best_estimator_.labels_
     silhouette = silhouette_score(X, labels)
-    calinski_harabasz = calinski_harabasz_score(X.toarray(), labels)
-    davies_bouldin = davies_bouldin_score(X.toarray(), labels)
+
 
     print("Silhouette Score:", silhouette)
-    print("Calinski-Harabasz Score:", calinski_harabasz)
-    print("Davies-Bouldin Score:", davies_bouldin)
-
+    
     # Get the best estimator (i.e., the best model)
     best_model = grid_search.best_estimator_
     silhouette = round(silhouette, 3)
@@ -292,8 +290,6 @@ def Chaklala_Store_Sales(dataset,username):
     accuracy = None
 
     saving_model(dataset,username,best_model,accuracy,rmse ,silhouette)
-    # Predict the cluster assignments of the new data points
-    # new_data_cluster_assignments = kmeans_model.predict(new_data)
     return 'Done'
 
 def Daily_Sales_Toothpastes(dataset,username):
@@ -330,3 +326,339 @@ def Daily_Sales_Toothpastes(dataset,username):
 
     saving_model(dataset,username,models,accuracy,rmse,silhouette)
     return 'Done'
+
+def Womens_Clothing_Reviews(dataset,username):
+
+    # load the data
+    df = pd.read_excel(dataset)
+
+    # drop unnecessary columns
+    df = df.drop(['Order_ID', 'Would_Recommended'], axis=1)
+    df.dropna(inplace=True)
+
+    le = LabelEncoder()
+    df['Product_Class_Encoded'] = le.fit_transform(df['Product_Class'])
+    # Drop the 'Product_Class' column
+    df = df.drop('Product_Class', axis=1)
+
+
+    # split the dataset into features (X) and target (y)
+    y = df['Rating']
+    X = df.drop('Rating', axis=1)
+
+    df.head(20)
+
+    # split the data into training and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # initialize the RandomForestClassifier
+    model = RandomForestClassifier(random_state=42)
+
+
+    # fit the GridSearchCV on the training data
+    model.fit(X_train, y_train)
+
+    # predict the target values for the test data using the best estimator found by GridSearchCV
+    y_pred = model.predict(X_test)
+
+    # ACCURACY on the test data using the best estimator found by GridSearchCV
+    accuracy = accuracy_score(y_test, y_pred)
+    print("Accuracy:", accuracy)
+    
+    accuracy=round(accuracy, 3)
+    rmse = None
+    silhouette =None
+
+    saving_model(dataset,username,model,accuracy,rmse,silhouette)
+
+    return 'Done'
+
+def Rwp_Isb_Customers_Service(dataset,username):
+    df = pd.read_csv(dataset)
+    # Preprocess the data
+    # Convert the categorical variable to numerical values
+    if set(df['PurchaseInEveryMonth'].dropna().unique()) == {'Yes', 'No'}:
+        df['PurchaseInEveryMonth'] = df['PurchaseInEveryMonth'].map({'Yes': 1, 'No': 0})
+    if set(df['ECard'].dropna().unique()) == {'Yes', 'No'}:
+        df['ECard'] = df['ECard'].map({'Yes': 1, 'No': 0})
+    if set(df['Churn'].dropna().unique()) == {'Yes', 'No'}:
+        df['Churn'] = df['Churn'].map({'Yes': 1, 'No': 0})
+    if set(df['Gender'].dropna().unique()) == {'Male', 'Female'}:
+        df['Gender'] = df['Gender'].map({'Male': 1, 'Female': 0})
+    # Drop the 'AccountID' column
+    df = df.drop('CustomerAccountID', axis=1)
+    # filling missing values
+    df = df.dropna()
+    df['TotalPointsGained'] = df['TotalPointsGained'].astype(int)
+    df['Age'] = df['Age'].astype(int)
+    df['TenureInYears'] = df['TenureInYears'].astype(int)
+    df['BranchesVisited'] = df['BranchesVisited'].astype(int)
+    le = LabelEncoder()
+    df['AccountBranch_Encoded'] = le.fit_transform(df['AccountBranch'])
+    # Drop the 'AccountBranch' column
+    df = df.drop('AccountBranch', axis=1)
+    
+    # select the features (all columns except 'Churn')
+    features = df.loc[:, df.columns != 'Churn']
+    # select the target variable ('Churn' column)
+    target = df['Churn']
+    # split the dataset into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.3, random_state=42)
+    # Train a Random Forest model
+    model = RandomForestClassifier(n_estimators=10)
+    model.fit(X_train, y_train)
+    # Make predictions on the test set
+    rf_pred = model.predict(X_test)
+    # Evaluate the models' performance
+    accuracy= accuracy_score(y_test, rf_pred)
+    print("Accuracy:", accuracy)
+    accuracy=round(accuracy, 3)
+    rmse = None
+    silhouette =None
+    saving_model(dataset,username,model,accuracy,rmse,silhouette)
+    return 'Done'
+
+def Monthly_Sales_tableware(dataset,username):
+    # Load the dataset
+    print(username)
+    df = pd.read_excel(dataset)
+    # convert the 'Week( Starting date)' column to date format
+    df['Month (Starting Date)'] = pd.to_datetime(df['Month (Starting Date)'])
+
+    # Define the date range for predictions
+    future = pd.date_range(start='2023-03-27', periods=52, freq='M')
+    # print(future)
+
+    df = df.dropna()
+    df.head(20)
+    # Create separate models for each medication
+    models = {}
+    for col in df.columns[1:]:
+        # Fit an ARIMA model to the data
+        model = ARIMA(df[col], order=(1, 0, 0))
+        model_fit = model.fit()
+        # Add the trained model to the dictionary of models
+        models[col] = model_fit
+
+    # Generate predictions for each medication
+    predictions = pd.DataFrame({'ds': future})
+    for col, model in models.items():
+        # Make predictions using the trained model
+        forecast = model.predict(start=len(df), end=len(df)+51)
+        # Add the predictions to the output dataframe
+        predictions[col] = forecast.values
+        # Calculate and print the RMSE
+        actual = df[col][-52:].values
+        predicted = forecast.values
+        # print(actual, 'and', predicted)
+    mse = mean_squared_error(actual, predicted)
+    rmse = np.sqrt(mse)
+    print(f'RMSE for: {rmse}')
+    rmse = round(rmse, 3)
+    # Print the predictions
+    predictions.head(-1)
+    silhouette =None
+    accuracy = None
+    saving_model(dataset,username,models,accuracy,rmse,silhouette)
+    return 'Done'
+
+def Pharma_Data_November(dataset,username):
+    # Load the dataset
+    df = pd.read_excel(dataset)
+
+    # Convert the "Product Name" column into a numerical representation
+    vectorizer = TfidfVectorizer(stop_words='english')
+    X = vectorizer.fit_transform(df['Product Name'])
+
+    # Define a range of hyperparameters to search over
+    param_grid = {
+        "n_clusters": [2, 3, 4, 5, 6],
+        "init": ["k-means++", "random"]
+    }
+
+    # Perform a grid search over the hyperparameters
+    kmeans = KMeans(random_state=42)
+    grid_search = GridSearchCV(
+        kmeans, param_grid, cv=5, scoring='neg_mean_squared_error'
+    )
+    grid_search.fit(X)
+
+    # Print the best hyperparameters and the corresponding evaluation metrics
+    print("Best hyperparameters:", grid_search.best_params_)
+
+    # Evaluate the clustering performance using alternative metrics
+    labels = grid_search.best_estimator_.labels_
+    silhouette = silhouette_score(X, labels)
+    calinski_harabasz = calinski_harabasz_score(X.toarray(), labels)
+    davies_bouldin = davies_bouldin_score(X.toarray(), labels)
+
+    print("Silhouette Score:", silhouette)
+    
+    best_model = grid_search.best_estimator_
+    silhouette = round(silhouette, 3)
+    rmse = None
+    accuracy = None
+
+    saving_model(dataset,username,best_model,accuracy,rmse ,silhouette)
+    return 'Done'
+
+def Phase_8_Report_dec_2022(dataset,username):
+    # Load the dataset
+    df = pd.read_excel(dataset)
+
+    # Convert the "Product Name" column into a numerical representation
+    vectorizer = TfidfVectorizer(stop_words='english')
+    X = vectorizer.fit_transform(df['Product Name'])
+
+    # Define a range of hyperparameters to search over
+    param_grid = {
+        "n_clusters": [2, 3, 4, 5, 6],
+        "init": ["k-means++", "random"]
+    }
+
+    # Perform a grid search over the hyperparameters
+    kmeans = KMeans(random_state=42)
+    grid_search = GridSearchCV(
+        kmeans, param_grid, cv=5, scoring='neg_mean_squared_error'
+    )
+    grid_search.fit(X)
+
+    # Print the best hyperparameters and the corresponding evaluation metrics
+    print("Best hyperparameters:", grid_search.best_params_)
+
+    # Evaluate the clustering performance using alternative metrics
+    labels = grid_search.best_estimator_.labels_
+    silhouette = silhouette_score(X, labels)
+    calinski_harabasz = calinski_harabasz_score(X.toarray(), labels)
+    davies_bouldin = davies_bouldin_score(X.toarray(), labels)
+
+    print("Silhouette Score:", silhouette)
+
+    best_model = grid_search.best_estimator_
+    silhouette = round(silhouette, 3)
+    rmse = None
+    accuracy = None
+
+    saving_model(dataset,username,best_model,accuracy,rmse ,silhouette)
+    return 'Done'
+
+def Kitchen_Item_Sales(dataset,username):
+    # Load the dataset
+    df = pd.read_excel(dataset)
+
+    # Convert the "Product Name" column into a numerical representation
+    vectorizer = TfidfVectorizer(stop_words='english')
+    X = vectorizer.fit_transform(df['Product Name'])
+
+    # Define a range of hyperparameters to search over
+    param_grid = {
+        "n_clusters": [2, 3, 4, 5, 6],
+        "init": ["k-means++", "random"]
+    }
+
+    # Perform a grid search over the hyperparameters
+    kmeans = KMeans(random_state=42)
+    grid_search = GridSearchCV(
+        kmeans, param_grid, cv=5, scoring='neg_mean_squared_error'
+    )
+    grid_search.fit(X)
+
+    # Print the best hyperparameters and the corresponding evaluation metrics
+    print("Best hyperparameters:", grid_search.best_params_)
+
+    # Evaluate the clustering performance using alternative metrics
+    labels = grid_search.best_estimator_.labels_
+    silhouette = silhouette_score(X, labels)
+    calinski_harabasz = calinski_harabasz_score(X.toarray(), labels)
+    davies_bouldin = davies_bouldin_score(X.toarray(), labels)
+
+    print("Silhouette Score:", silhouette)
+
+    best_model = grid_search.best_estimator_
+    silhouette = round(silhouette, 3)
+    rmse = None
+    accuracy = None
+
+    saving_model(dataset,username,best_model,accuracy,rmse ,silhouette)
+    return 'Done'
+
+def Women_Dress_Sales_Jan(dataset,username):
+    # Load the dataset
+    df = pd.read_excel(dataset)
+
+    # Convert the "Product Name" column into a numerical representation
+    vectorizer = TfidfVectorizer(stop_words='english')
+    X = vectorizer.fit_transform(df['Product Name'])
+
+    # Define a range of hyperparameters to search over
+    param_grid = {
+        "n_clusters": [2, 3, 4, 5, 6],
+        "init": ["k-means++", "random"]
+    }
+
+    # Perform a grid search over the hyperparameters
+    kmeans = KMeans(random_state=42)
+    grid_search = GridSearchCV(
+        kmeans, param_grid, cv=5, scoring='neg_mean_squared_error'
+    )
+    grid_search.fit(X)
+
+    # Print the best hyperparameters and the corresponding evaluation metrics
+    print("Best hyperparameters:", grid_search.best_params_)
+
+    # Evaluate the clustering performance using alternative metrics
+    labels = grid_search.best_estimator_.labels_
+    silhouette = silhouette_score(X, labels)
+    calinski_harabasz = calinski_harabasz_score(X.toarray(), labels)
+    davies_bouldin = davies_bouldin_score(X.toarray(), labels)
+
+    print("Silhouette Score:", silhouette)
+
+    best_model = grid_search.best_estimator_
+    silhouette = round(silhouette, 3)
+    rmse = None
+    accuracy = None
+
+    saving_model(dataset,username,best_model,accuracy,rmse ,silhouette)
+    return 'Done'
+
+def Mobile_Accessories_Data_per_Customer(dataset,username):
+    # Load the dataset
+    df = pd.read_excel(dataset)
+
+    # Convert the "Product Name" column into a numerical representation
+    vectorizer = TfidfVectorizer(stop_words='english')
+    X = vectorizer.fit_transform(df['Product Name'])
+
+    # Define a range of hyperparameters to search over
+    param_grid = {
+        "n_clusters": [2, 3, 4, 5, 6],
+        "init": ["k-means++", "random"]
+    }
+
+    # Perform a grid search over the hyperparameters
+    kmeans = KMeans(random_state=42)
+    grid_search = GridSearchCV(
+        kmeans, param_grid, cv=5, scoring='neg_mean_squared_error'
+    )
+    grid_search.fit(X)
+
+    # Print the best hyperparameters and the corresponding evaluation metrics
+    print("Best hyperparameters:", grid_search.best_params_)
+
+    # Evaluate the clustering performance using alternative metrics
+    labels = grid_search.best_estimator_.labels_
+    silhouette = silhouette_score(X, labels)
+    calinski_harabasz = calinski_harabasz_score(X.toarray(), labels)
+    davies_bouldin = davies_bouldin_score(X.toarray(), labels)
+
+    print("Silhouette Score:", silhouette)
+
+    best_model = grid_search.best_estimator_
+    silhouette = round(silhouette, 3)
+    rmse = None
+    accuracy = None
+
+    saving_model(dataset,username,best_model,accuracy,rmse ,silhouette)
+    return 'Done'
+
