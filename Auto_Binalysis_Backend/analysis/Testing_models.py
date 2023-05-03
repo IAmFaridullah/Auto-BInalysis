@@ -157,6 +157,29 @@ def test_models(dataset,model_dir):
         print(grouped_df)
         return grouped_df
 
+    elif dataset_name == 'MonthlySalesTablewareTest':
+        # Generate predictions for each medication using the loaded models
+
+        predictions = pd.read_excel(dataset)
+        # Load the saved models from file using pickle
+
+        with open(model_dir, 'rb') as file:
+            loaded_models = pickle.load(file)
+        print(type(loaded_models))
+        for col in predictions.columns[1:]:
+            # Get the corresponding trained ARIMA model from the dictionary
+            loaded_model = loaded_models[col]
+            # Make predictions using the trained model
+            forecast = loaded_model.predict(start=len(predictions), end=len(predictions)+51)
+            
+            # Add the predictions to the output dataframe
+            predictions[col] = forecast.values
+            
+        testfile = os.path.join(
+            'analysis', 'Tested_file', f'{dataset_name}_output.xlsx')
+        # write the DataFrame to an Excel file in memory
+        predictions.to_excel(testfile, index=False)
+        return predictions
 
     else:
         return pd.DataFrame({'error','Wrong dataset'})
