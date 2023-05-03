@@ -15,11 +15,16 @@ import Chatpage from "./components/chatpage/Chatpage";
 import Navbar from "./components/Navbar";
 import PopupChatbot from "./components/PopupChatbot";
 import ChatContextProvider from "./components/context/chatcontext/Chatcontextprovider";
+import AdminContextProvider from "./components/context/admincontext/Admincontextprovider";
 import TrainedModels from "./components/Dashboard/TrainedModels";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Home from "./components/HomePage/Home";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Notfound from "./components/Notfound";
+import TrainModel from "./components/TrainModel";
+import TestModel from "./components/TestModel";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
+import UpdateUser from "./components/AdminDashboard/UpdateUser";
 
 function App() {
   const location = useLocation();
@@ -43,16 +48,23 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/models" element={<TrainedModels />} />
+          <Route path="/train-model" element={<TrainModel />} />
+          <Route path="/test-model/:name" element={<TestModel />} />
+
           <Route
-            path="/train-model"
+            path="/admin/dashboard"
             element={
-              <FileUpload url="http://localhost:8000/analysis/train-model/" />
+              <AdminContextProvider>
+                <AdminDashboard />
+              </AdminContextProvider>
             }
           />
           <Route
-            path="/test-model/:name"
+            path="/admin/update-user/:username"
             element={
-              <FileUpload url="http://localhost:8000/analysis/test-model/" />
+              <AdminContextProvider>
+                <UpdateUser />
+              </AdminContextProvider>
             }
           />
           <Route

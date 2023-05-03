@@ -18,6 +18,8 @@ function PopupChatbot() {
   ]);
   const [showChatBot, setShowChatBot] = useState(false);
   const chatContainerRef = useRef();
+  const user = JSON.parse(window.localStorage.getItem("user"));
+  const [guestUsername, setGuestUsername] = useState(null);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -40,9 +42,15 @@ function PopupChatbot() {
       setChat([...chat, { messageText: question, isSender: true }]);
       const response = await axios.post(
         "http://localhost:8000/chatbot/response/",
-        {
-          question: question,
-        }
+        user
+          ? {
+              question: question,
+              username: user?.username,
+            }
+          : {
+              question: question,
+              guest_username: guestUsername,
+            }
       );
       if (response.status === 200) {
         setChat((prevState) => {
@@ -51,8 +59,10 @@ function PopupChatbot() {
             { messageText: response.data.answer, isSender: false },
           ];
         });
+        if (response.data.guest_username) {
+          setGuestUsername(response.data.guest_username);
+        }
       }
-
       setQuestion("");
     }
   };

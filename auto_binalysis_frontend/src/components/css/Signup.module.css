@@ -1,6 +1,20 @@
 .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 5rem;
+}
+
+.logo {
+  margin-bottom: 4rem;
+  margin-left: 2rem;
+}
+
+.form_container {
+  background-color: white;
+  border-radius: 5px;
+  margin: 3rem 1rem;
   padding: 1rem;
-  margin: 1rem;
   width: 40%;
 }
 

@@ -15,6 +15,7 @@
   overflow: hidden;
   transition: all 0.3s ease;
   width: 22%;
+  height: fit-content;
 }
 
 .card img {

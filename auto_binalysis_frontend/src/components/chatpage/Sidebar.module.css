@@ -6,6 +6,7 @@
   flex-direction: column;
   background-color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-right: 0.5px solid lightgray;
 }
 
 .sidebar_header {
@@ -45,4 +46,12 @@
   width: 40px;
   border-radius: 50%;
   background-color: pink;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile_label {
+  font-weight: 500;
+  letter-spacing: 1px;
 }
