@@ -21,7 +21,7 @@ function Sidebar() {
         </div>
       </div>
       <div className={styles.sidebar_body}>
-        {state.users?.map((user, index) => (
+        {state.chatUsers?.map((user, index) => (
           <SidebarUser key={index} user={user} />
         ))}
       </div>
