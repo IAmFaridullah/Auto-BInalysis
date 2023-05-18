@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 
 import styles from "./UpdateUser.module.css";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import logo2 from "../../assets/images/Logo2.png";
 import { Spinner } from "react-bootstrap";
@@ -10,6 +10,7 @@ import { AdminContext } from "../context/admincontext/Admincontextprovider";
 
 function UpdateUser() {
   const [state] = useContext(AdminContext);
+  const navigate = useNavigate();
   const { selectedUser } = state;
   const [userData, setUserData] = useState({
     username: selectedUser.username,
@@ -25,7 +26,7 @@ function UpdateUser() {
 
   const updateUserHandler = async (event, username) => {
     event.preventDefault();
-    console.log(userData);
+    setLoading(true);
     const response = await axios.post(
       "http://localhost:8000/adminpanel/update-user/",
       {
@@ -34,7 +35,8 @@ function UpdateUser() {
       }
     );
     if (response.status === 200) {
-      console.log("done!");
+      setLoading(false);
+      navigate("/admin/dashboard");
     }
   };
   return (

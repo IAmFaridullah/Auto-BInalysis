@@ -96,10 +96,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'autobi45@gmail.com'
-# saad-EMAIL_HOST_PASSWORD = 'ercasoadfrdepawf'
-EMAIL_HOST_USER = 'faridullahkhan645@gmail.com'
-EMAIL_HOST_PASSWORD = 'uobngclyynenbppo'
+EMAIL_HOST_USER = 'autobi45@gmail.com'
+EMAIL_HOST_PASSWORD = 'ercasoadfrdepawf'
+# EMAIL_HOST_USER = 'faridullahkhan645@gmail.com'
+# EMAIL_HOST_PASSWORD = 'uobngclyynenbppo'
 # DEFAULT_FROM_EMAIL = 'faridullahkhan645@gmail.com'
 # SERVER_EMAIL = 'faridullahkhan645@gmail.com'
 
@@ -197,3 +197,18 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
+
+# LOGGING = {
+#     'version': 1,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#     },
+# }

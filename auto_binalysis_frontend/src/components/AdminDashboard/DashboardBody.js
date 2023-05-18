@@ -7,7 +7,6 @@ import axios from "axios";
 import { AdminContext } from "../context/admincontext/Admincontextprovider";
 
 function DashboardBody() {
-  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const [state, dispatch] = useContext(AdminContext);
 
@@ -18,7 +17,6 @@ function DashboardBody() {
         type: "ADD_ADMIN_USERS",
         payload: response.data.users,
       });
-      // setUsers(response.data.users);
     }
   };
   useEffect(() => {
@@ -33,8 +31,13 @@ function DashboardBody() {
       }
     );
     if (response.status === 200) {
-      const updatedUsers = users.filter((user) => user.username !== username);
-      setUsers(updatedUsers);
+      const updatedUsers = state?.users.filter(
+        (user) => user.username !== username
+      );
+      dispatch({
+        type: "ADD_ADMIN_USERS",
+        payload: updatedUsers,
+      });
     }
   };
 

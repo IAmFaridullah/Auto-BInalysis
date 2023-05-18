@@ -7,6 +7,7 @@ import logo from "../images/Logo1.png";
 const Navbar = () => {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
+  const loggedInUser = JSON.parse(window.localStorage.getItem("user"));
 
   const handleLogout = () => {
     localStorage.clear();
@@ -20,35 +21,14 @@ const Navbar = () => {
       </div>
       <ul className="navbar-right">
         <li className="nav-item">
-          <NavLink
-            to="/"
-            end
-            // style={({ isActive }) =>
-            //   isActive
-            //     ? {
-            //         backgroundColor: "orange",
-            //         padding: "8px",
-            //         borderRadius: "5px",
-            //       }
-            //     : null
-            // }
-          >
+          <NavLink to="/" end>
             Home
           </NavLink>
         </li>
         {accessToken && (
           <li className="nav-item">
             <NavLink
-              to="/dashboard"
-              // style={({ isActive }) =>
-              //   isActive
-              //     ? {
-              //         backgroundColor: "orange",
-              //         padding: "8px",
-              //         borderRadius: "5px",
-              //       }
-              //     : null
-              // }
+              to={loggedInUser?.is_admin ? "/admin/dashboard" : "/dashboard"}
             >
               Dashboard
             </NavLink>
@@ -56,19 +36,7 @@ const Navbar = () => {
         )}
         {accessToken && (
           <li className="nav-item">
-            <NavLink
-              to="/profile"
-              end
-              // style={({ isActive }) =>
-              //   isActive
-              //     ? {
-              //         backgroundColor: "orange",
-              //         padding: "8px",
-              //         borderRadius: "5px",
-              //       }
-              //     : null
-              // }
-            >
+            <NavLink to="/profile" end>
               Profile
             </NavLink>
           </li>

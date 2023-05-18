@@ -39,7 +39,7 @@ function NewPassword() {
 
   return (
     <>
-      <Card className={styles.container}>
+      <div className={styles.container}>
         <h1 className={styles.form_heading}>Change password</h1>
         <form onSubmit={submitHandler}>
           <div className={styles.inputs_container}>
@@ -62,7 +62,7 @@ function NewPassword() {
             Change password
           </button>
         </form>
-      </Card>
+      </div>
     </>
   );
 }
