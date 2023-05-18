@@ -19,7 +19,7 @@ def get_users(request):
 def delete_user(request):
     json_data = json.loads(request.body)
     username = json_data['username']
-    user = client_details.objects.get(email='elliot@db.com')
+    user = client_details.objects.get(username=username)
     user.delete()
     return JsonResponse({'message': 'User deleted successfully.'}, status=200)
 

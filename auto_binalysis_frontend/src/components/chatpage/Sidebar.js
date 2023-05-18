@@ -16,7 +16,7 @@ function Sidebar() {
         <div className={styles.profile_pic}>
           <span className={styles.profile_label}>
             {firstName[0]?.charAt(0).toUpperCase()}
-            {lastName[0]?.charAt(0).toUpperCase()}
+            {lastName && lastName[0].charAt(0).toUpperCase()}
           </span>
         </div>
       </div>

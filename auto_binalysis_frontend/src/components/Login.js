@@ -37,7 +37,7 @@ function Login() {
         localStorage.setItem("refreshToken", response.data.refresh);
         setLoading(false);
         if (resp.data.is_admin === true) {
-          navigate("/profile");
+          navigate("/admin/dashboard");
         } else {
           navigate("/dashboard");
         }

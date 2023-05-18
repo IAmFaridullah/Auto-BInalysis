@@ -18,13 +18,10 @@ function Signup() {
     password: "",
     re_password: "",
     gender: "",
+    client_type: "",
   });
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-
-  const userTypeHandler = (event) => {
-    console.log(event.target.value);
-  };
 
   const changeHandler = (event) => {
     setUserData({ ...userData, [event.target.name]: event.target.value });
@@ -139,6 +136,7 @@ function Signup() {
                 name="gender"
                 value="Male"
                 style={{ marginLeft: "1rem" }}
+                onChange={changeHandler}
               />
               <label htmlFor="Male" style={{ marginLeft: "10px" }}>
                 Male
@@ -148,6 +146,7 @@ function Signup() {
                 name="gender"
                 value="Female"
                 style={{ marginLeft: "1rem" }}
+                onChange={changeHandler}
               />
               <label htmlFor="Female" style={{ marginLeft: "10px" }}>
                 Female
@@ -158,7 +157,8 @@ function Signup() {
             <Form.Select
               size="lg"
               aria-label="Default select example"
-              onChange={userTypeHandler}
+              onChange={changeHandler}
+              name="client_type"
             >
               <option value="Local Super Market">Local Super Market</option>
               <option value="E-commerce Store">E-commerce Store</option>

@@ -2,6 +2,7 @@ import pandas as pd
 from django.http import HttpResponse, JsonResponse, FileResponse
 from .prediction import start_chat
 import json
+import re
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from userauthentication.models import client_details
@@ -79,8 +80,9 @@ def chat_response(request):
             user = client_details.objects.get(username=username)
 
         chat_response = start_chat(str(question))
-        if question.startswith('Email:'):
-            email = question.split(':')[1].strip()
+        email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        if re.match(email_regex, question):
+            email = question
             guest_username = json_data['guest_username']
             user = client_details.objects.get(username=guest_username)
             user.email = email
