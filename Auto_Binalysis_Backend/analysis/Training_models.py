@@ -4,6 +4,7 @@ import pickle
 from django.http import HttpResponse
 import pandas as pd
 import os
+from prophet import Prophet
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 # from sklearn.preprocessing import LabelEncoder
@@ -548,7 +549,7 @@ def Kitchen_Item_Sales(dataset,username):
 
     # Convert the "Product Name" column into a numerical representation
     vectorizer = TfidfVectorizer(stop_words='english')
-    X = vectorizer.fit_transform(df['Product Name'])
+    X = vectorizer.fit_transform(df['Items'])
 
     # Define a range of hyperparameters to search over
     param_grid = {
@@ -569,8 +570,8 @@ def Kitchen_Item_Sales(dataset,username):
     # Evaluate the clustering performance using alternative metrics
     labels = grid_search.best_estimator_.labels_
     silhouette = silhouette_score(X, labels)
-    calinski_harabasz = calinski_harabasz_score(X.toarray(), labels)
-    davies_bouldin = davies_bouldin_score(X.toarray(), labels)
+    # calinski_harabasz = calinski_harabasz_score(X.toarray(), labels)
+    # davies_bouldin = davies_bouldin_score(X.toarray(), labels)
 
     print("Silhouette Score:", silhouette)
 
@@ -662,3 +663,50 @@ def Mobile_Accessories_Data_per_Customer(dataset,username):
     saving_model(dataset,username,best_model,accuracy,rmse ,silhouette)
     return 'Done'
 
+# def Supermart_Punjab_and_Isb_Sales_Updated(dataset,username):
+    # df = pd.read_excel(dataset)
+    # # Check the shape of the dataset
+    # print(df.shape)
+    # # Identify rows with zero values in the target column
+    # zero_rows = df[df['total sales (in units/weight)'] == 0]
+    # # Remove the identified rows
+    # df = df.drop(zero_rows.index)
+    # # Drop rows with any null values
+    # df = df.dropna()
+    # # Check for missing values
+    # print(df.isnull().sum())
+    # df = df.drop('Store_Province' , axis = 1)
+    # df = df.reset_index()
+    # df = df.drop('index' , axis = 1)
+    # print(df.head(10))
+    # # Define the date range for predictions
+    # future = pd.date_range(start='2023-03-27', periods=52, freq='M')
+    # # Create separate models for each medication
+    # models = {}
+    # for col in df.columns[1:]:
+    #     # Fit an ARIMA model to the data
+    #     model = ARIMA(df[col], order=(1, 0, 0))
+    #     model_fit = model.fit()
+    #     # Add the trained model to the dictionary of models
+    #     models[col] = model_fit
+    # # Generate predictions for each medication
+    # predictions = pd.DataFrame({'ds': future})
+    # for col, model in models.items():
+    #     # Make predictions using the trained model
+    #     forecast = model.predict(start=len(df), end=len(df)+51)
+    #     # Add the predictions to the output dataframe
+    #     predictions[col] = forecast.values
+    #     # Calculate and print the RMSE
+    #     actual = df[col][-52:].values
+    #     predicted = forecast.values
+    #     # print(actual, 'and', predicted)
+    # mse = mean_squared_error(actual, predicted)
+    # rmse = np.sqrt(mse)
+    # print(f'RMSE for: {rmse}')
+    # rmse = round(rmse, 3)
+    # # Print the predictions
+    # predictions.head(-1)
+    # silhouette =None
+    # accuracy = None
+    # saving_model(dataset,username,models,accuracy,rmse,silhouette)
+    # return 'Done'

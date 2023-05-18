@@ -76,6 +76,11 @@ def training_models(dataset, username):
         if status == 'Done':
             return 'Done'
 
+    # elif dataset.name.split(".")[0] == "Supermart Punjab and Isb Sales_Updated":
+        # status = Training_models.Supermart_Punjab_and_Isb_Sales_Updated(dataset,username)
+        # if status == 'Done':
+        #     return 'Done'
+
     else:
         return 'Wrong Dataset'
 
