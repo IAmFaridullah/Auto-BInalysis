@@ -12,7 +12,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
-
 import uuid
 
 
@@ -54,7 +53,7 @@ def admin_message(request):
                         message=message, msg_time=timezone.now())
             chat.save()
             send_mail(
-                'Reply from auto-binaysis admin',  # email subject
+                'Reply from auto-binalysis admin',  # email subject
                 'Here is the answer of admin about the query you asked in chatbot.',  # email body
                 settings.EMAIL_HOST_USER,  # email from address
                 [user.email],  # email recipient list

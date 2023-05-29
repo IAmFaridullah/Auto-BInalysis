@@ -13,21 +13,21 @@ function Model({ model }) {
     if (model.accuracy !== null) {
       return (
         <div className={styles.model_accuracy_box}>
-          <h6>Accuracy</h6>
+          <h6>ACCURACY</h6>
           <h6>{model.accuracy}</h6>
         </div>
       );
     } else if (model.rmse !== null) {
       return (
         <div className={styles.model_accuracy_box}>
-          <h6>Rmse</h6>
+          <h6>RMSE</h6>
           <h6>{model.rmse}</h6>
         </div>
       );
     } else if (model.silhouette !== null) {
       return (
         <div className={styles.model_accuracy_box}>
-          <h6>Silhouette</h6>
+          <h6>SILHOUETTE</h6>
           <h6>{model.silhouette}</h6>
         </div>
       );

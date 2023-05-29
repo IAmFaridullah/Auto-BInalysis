@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Auto_BinalysisDB',
         'USER': 'root',
-        'PASSWORD': 'pass123',
+        'PASSWORD': 'srwatson33',
         'HOST': 'localhost',
         'PORT': '3306',
     }

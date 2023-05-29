@@ -18,7 +18,7 @@ function Signup() {
     password: "",
     re_password: "",
     gender: "",
-    client_type: "",
+    client_type: "Local Super Market",
   });
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +28,6 @@ function Signup() {
   };
 
   const submitHandler = async (event) => {
-    console.log(userData);
     event.preventDefault();
     setIsLoading(true);
     try {
