@@ -26,6 +26,8 @@ import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 import UpdateUser from "./components/AdminDashboard/UpdateUser";
 import UnAuthorized from "./components/UnAuthorized";
 import AdminProtectedRoutes from "./components/AdminProtectedRoutes";
+import Visualization from "./components/Visualization";
+import VisualizationProvider from "./components/context/visualizationcontext/VisualizationProvider";
 
 function App() {
   const location = useLocation();
@@ -50,7 +52,22 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/models" element={<TrainedModels />} />
           <Route path="/train-model" element={<TrainModel />} />
-          <Route path="/test-model/:name" element={<TestModel />} />
+          <Route
+            path="/test-model/:name"
+            element={
+              <VisualizationProvider>
+                <TestModel />
+              </VisualizationProvider>
+            }
+          />
+          <Route
+            path="/test-model/visualization"
+            element={
+              <VisualizationProvider>
+                <Visualization />
+              </VisualizationProvider>
+            }
+          />
           <Route element={<AdminProtectedRoutes />}>
             <Route
               path="/admin/dashboard"

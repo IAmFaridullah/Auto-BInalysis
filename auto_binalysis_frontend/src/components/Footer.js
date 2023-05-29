@@ -15,10 +15,10 @@ function Footer() {
       <div className="footer__item">
         <h3>Business Intelligence Tool</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis harum
-          aspernatur nobis debitis labore sed velit quia, incidunt omnis neque
-          sequi quibusdam, modi pariatur vero quam nesciunt officia tenetur
-          iure!
+          Business intelligence tools provide a powerful way to collect,
+          transform, and analyze data from diverse sources, generating insights
+          that can drive improvements in customer service, operations, and
+          profitability.
         </p>
       </div>
       <div className="footer__item">

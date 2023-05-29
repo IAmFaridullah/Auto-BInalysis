@@ -1,9 +1,11 @@
 import axios from "axios";
 import styles from "./css/TestModel.module.css";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { MdCloudUpload } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
+import useExtractData from "./hooks/useExtractData";
+import { visualizationContext } from "./context/visualizationcontext/VisualizationProvider";
 // import { FileSaver } from "file-saver";
 
 function TestModel() {
@@ -11,8 +13,14 @@ function TestModel() {
   const user = JSON.parse(localStorage.getItem("user"));
   const { name } = useParams();
   const navigate = useNavigate();
+  const [, dispatch] = useContext(visualizationContext);
+  const handleExcelFile = useExtractData();
 
   const onDrop = useCallback((acceptedFiles) => {
+    dispatch({
+      type: "SET_MODEL_NAME",
+      payload: name,
+    });
     setFiles(files.concat(acceptedFiles));
     // Do something with the files
   }, []);
@@ -29,11 +37,13 @@ function TestModel() {
       })
       .then((response) => {
         if (response.status === 200) {
+          handleExcelFile(response.data);
           var FileSaver = require("file-saver");
           var blob = new Blob([response.data], {
             type: "application/ms-excel",
           });
           FileSaver.saveAs(blob, "predictions.xlsx");
+          navigate("/test-model/visualization");
         }
       });
   };
