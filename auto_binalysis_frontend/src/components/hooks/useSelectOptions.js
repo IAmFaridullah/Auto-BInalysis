@@ -18,13 +18,14 @@ function useSelectOptions() {
   if (model_name === "Member Card Analysis Data.pkl") {
     return {
       chart: {
-        type: "column", // Specify the chart type as a column
+        type: "pie", // Specify the chart type as a column
+        marginRight: 10,
       },
       title: {
         text: "Member card analysis predictions", // Set the chart title
       },
       xAxis: {
-        categories: ["YES", "NO"], // Set the x-axis categories
+        categories: ["YES", "NO"],
       },
       yAxis: {
         title: {
@@ -42,6 +43,7 @@ function useSelectOptions() {
     return {
       chart: {
         type: "line", // Specify the chart type as a line
+        marginRight: 20,
       },
       title: {
         text: "Pharma Weekly Sales", // Set the chart title
@@ -90,7 +92,8 @@ function useSelectOptions() {
   } else if (model_name === "Member Churn.pkl") {
     return {
       chart: {
-        type: "pie", // Specify the chart type as a pie
+        type: "pie",
+        marginRight: 10, // Specify the chart type as a pie
       },
       title: {
         text: "Member Churn", // Set the chart title
@@ -129,6 +132,7 @@ function useSelectOptions() {
     return {
       chart: {
         type: "line", // Specify the chart type as a line
+        marginRight: 20,
       },
       title: {
         text: "Tableware Monthly Sales", // Set the chart title
@@ -153,7 +157,8 @@ function useSelectOptions() {
   } else if (model_name === "Rwp and Isb Customers Service data.pkl") {
     return {
       chart: {
-        type: "column", // Specify the chart type as a column
+        type: "column",
+        marginRight: 20, // Specify the chart type as a column
       },
       title: {
         text: "Rawalpindi & Islamabad Customer Churn", // Set the chart title

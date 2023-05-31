@@ -34,6 +34,7 @@ function TrainModel() {
 
   return (
     <div className={styles.dropzone_container}>
+      <h2>Upload Training Dataset</h2>
       <div {...getRootProps()} className={styles.dropzone}>
         <input {...getInputProps()} />
         {isDragActive ? (

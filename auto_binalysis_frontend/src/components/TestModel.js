@@ -6,6 +6,7 @@ import { MdCloudUpload } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
 import useExtractData from "./hooks/useExtractData";
 import { visualizationContext } from "./context/visualizationcontext/VisualizationProvider";
+import { centerImage } from "highcharts";
 // import { FileSaver } from "file-saver";
 
 function TestModel() {
@@ -50,6 +51,7 @@ function TestModel() {
 
   return (
     <div className={styles.dropzone_container}>
+      <h2>Upload Testing Dataset</h2>
       <div {...getRootProps()} className={styles.dropzone}>
         <input {...getInputProps()} />
         {isDragActive ? (

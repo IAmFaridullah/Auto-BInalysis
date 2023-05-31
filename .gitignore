@@ -6,6 +6,9 @@ db.sqlite3
 media
 lib/ 
 lib64/ 
+Tested_file
+trained-models
+data
 
 .env 
 .venv 
