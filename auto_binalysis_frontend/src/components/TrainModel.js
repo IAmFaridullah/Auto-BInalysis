@@ -18,7 +18,6 @@ function TrainModel() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const fileSubmitHandler = async () => {
-    console.log(name);
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("username", user.username);
