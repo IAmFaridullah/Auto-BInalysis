@@ -13,6 +13,7 @@ function Login() {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  let error_message = "";
 
   const changeHandler = (event) => {
     setUserData({ ...userData, [event.target.name]: event.target.value });
@@ -44,6 +45,11 @@ function Login() {
       }
     } catch (error) {
       setLoading(false);
+      error_message = Object.values(error?.response?.data)[0];
+      if (error_message.includes("client_details")) {
+        error_message = error_message.replace("client_details", "User");
+      }
+      alert(error_message);
     }
   };
 

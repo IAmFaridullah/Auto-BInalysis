@@ -22,6 +22,7 @@ function Signup() {
   });
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  let error_message = "";
 
   const changeHandler = (event) => {
     setUserData({ ...userData, [event.target.name]: event.target.value });
@@ -41,7 +42,11 @@ function Signup() {
       }
     } catch (error) {
       setIsLoading(false);
-      alert(Object.values(error?.response?.data)[0][0]);
+      error_message = Object.values(error?.response?.data)[0][0];
+      if (error_message.includes("client_details")) {
+        error_message = error_message.replace("client_details", "User");
+      }
+      alert(error_message);
     }
   };
 
