@@ -1,6 +1,6 @@
 import axios from "axios";
 import styles from "./css/TestModel.module.css";
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { MdCloudUpload } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
@@ -11,11 +11,28 @@ import { centerImage } from "highcharts";
 
 function TestModel() {
   const [files, setFiles] = useState([]);
+  const [shouldVisualized, setShouldVisualized] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const { name } = useParams();
   const navigate = useNavigate();
   const [, dispatch] = useContext(visualizationContext);
   const handleExcelFile = useExtractData();
+  const visualizationModels = [
+    "Member Card Analysis Data.pkl",
+    "PharmaSalesWeekly.pkl",
+    "Member Churn.pkl",
+    "Monthly Sales Tableware.pkl",
+    "Rwp and Isb Customers Service data.pkl",
+    "Daily Sales Toothpastes.pkl",
+    "Daily Orders Mob Acc.pkl",
+    "Women's Clothing Reviews.pkl",
+  ];
+
+  useEffect(() => {
+    if (visualizationModels.includes(name)) {
+      setShouldVisualized(true);
+    }
+  }, []);
 
   const onDrop = useCallback((acceptedFiles) => {
     dispatch({
@@ -38,13 +55,17 @@ function TestModel() {
       })
       .then((response) => {
         if (response.status === 200) {
-          handleExcelFile(response.data);
           var FileSaver = require("file-saver");
           var blob = new Blob([response.data], {
             type: "application/ms-excel",
           });
           FileSaver.saveAs(blob, "predictions.xlsx");
-          navigate("/test-model/visualization");
+          if (shouldVisualized) {
+            handleExcelFile(response.data);
+            navigate("/test-model/visualization");
+          } else {
+            navigate("/dashboard");
+          }
         }
       });
   };

@@ -41,7 +41,7 @@ function Signup() {
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(Object.values(error?.response?.data)[0][0]);
+      alert(Object.values(error?.response?.data)[0][0]);
     }
   };
 

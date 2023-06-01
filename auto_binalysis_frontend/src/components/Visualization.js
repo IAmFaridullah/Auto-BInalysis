@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 import styles from "./css/Visualization.module.css";
-import { visualizationContext } from "./context/visualizationcontext/VisualizationProvider";
 import useSelectOptions from "./hooks/useSelectOptions";
 
 require("highcharts/modules/exporting")(Highcharts);

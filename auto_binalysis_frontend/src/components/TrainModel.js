@@ -21,7 +21,6 @@ function TrainModel() {
     const formData = new FormData();
     formData.append("file", files[0]);
     formData.append("username", user.username);
-    formData.append("model_name", name);
     axios
       .post("http://localhost:8000/analysis/train-model/", formData)
       .then((response) => {
